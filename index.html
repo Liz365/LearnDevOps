@@ -288,7 +288,7 @@
         <header>
             <h1>DevOps & Cloud Infrastructure Interactive Academy</h1>
             <p class="dates-banner" id="dateBanner">Setting timeline...</p>
-            <p style="color: var(--text-muted)">Tap a Day's Title text to open tutorials and exercises. Check boxes to save your progress.</p>
+            <p style="color: var(--text-muted)">Tap a Day Title text to open tutorials and exercises. Check boxes to save your progress.</p>
         </header>
 
         <div class="progress-container">
@@ -319,13 +319,13 @@
             { 
                 day: 1, phase: 'step1', badge: 'Step 1: Linux', title: 'File System & Navigation Mechanics', 
                 desc: 'Master Linux directory structures and user execution pathways.', 
-                learn: 'The Linux file system is organized like an inverted tree starting at the root directory (/). Key paths include: <br>• /etc: Core configuration files.<br>• /var/log: Dynamic system trace logs.<br>• /home: Individual user environment scopes.<br>Understanding pathways prevents accidental directory manipulation or missing configurations root failures.',
+                learn: 'The Linux file system is organized like an inverted tree starting at the root directory. Key paths include: <br>• /etc: Core configuration files.<br>• /var/log: Dynamic system trace logs.<br>• /home: Individual user environment scopes.<br>Understanding pathways prevents accidental directory manipulation or missing configurations root failures.',
                 exercise: 'Create structured playground practice lanes and navigate them securely:<span class="code-block">mkdir -p ~/devops/linux_labs && cd ~/devops/linux_labs && pwd</span>' 
             },
             { 
                 day: 2, phase: 'step1', badge: 'Step 1: Linux', title: 'Text Manipulation & Processing Streams', 
                 desc: 'Study data stream piping, matching regular expressions, and parsing configurations outputs.', 
-                learn: 'Linux systems treat everything as a stream of text data. Pipes (|) allow you to route the output of one utility to the input of another. Essential parsing commands include:<br>• grep: Filters text matching patterns.<br>• awk: Powerful column-based data extraction filter.<br>• sed: Stream editor used to replace text inside configuration templates on the fly.',
+                learn: 'Linux systems treat text as data streams. Pipes (|) allow you to route the output of one utility to the input of another. Essential parsing commands include:<br>• grep: Filters text matching patterns.<br>• awk: Powerful column-based data extraction filter.<br>• sed: Stream editor used to replace text inside configuration templates on the fly.',
                 exercise: 'Extract and count specific HTTP 500 server errors from a mock system log file string:<span class="code-block">echo -e "200 OK\\n500 Internal Error\\n404 Not Found\\n500 Gateway Timeout" > access.log\ncat access.log | grep "500" | wc -l</span>' 
             },
             { 
@@ -344,7 +344,7 @@
                 day: 5, phase: 'step1', badge: 'Step 1: Linux', title: 'Shell Script Loops & Control Statements', 
                 desc: 'Implement conditional paths logic and loop scripts structures to handle repetitive tasks.', 
                 learn: 'Control blocks allow your automation scripts to react dynamically to changes. Use if [ condition ] blocks to verify if configuration profiles or backup files exist, and wrap repetitive execution jobs inside clean for or while loop parameters.',
-                exercise: 'Create an automated loop testing host connections parameters or building incremental backup directories:<span class="code-block">for i in {1..3}; do mkdir -p "backup_v\$i"; done\nls -l</span>' 
+                exercise: 'Create an automated loop testing host connections parameters or building incremental backup directories:<span class="code-block">for i in 1 2 3; do mkdir -p "backup_v\$i"; done\nls -l</span>' 
             },
             { 
                 day: 6, phase: 'step1', badge: 'Step 1: Git', title: 'Git Core Plumbing & Working Tree States', 
@@ -368,7 +368,7 @@
                 day: 9, phase: 'step1', badge: 'Step 1: Networking', title: 'Subnet Addressing Systems & CIDR Blocks', 
                 desc: 'Deconstruct cloud private network isolation walls using Classless Inter-Domain Routing boundaries.', 
                 learn: 'CIDR blocks define network boundaries. An IP configuration string like 10.0.0.0/16 provides a large global sandbox of addresses, while tighter masks like /24 partition that pool into localized network tiers.',
-                exercise: 'Calculate IP allocations capacity boundaries: A standard /24 allocation block contains 256 total addresses (251 usable inside cloud spaces after accounting for systemic routing reserves).' 
+                exercise: 'Calculate IP allocations capacity boundaries: A standard /24 allocation block contains 256 total addresses (251 usable inside cloud spaces after accounting for systemic cloud architecture reserves).' 
             },
             { 
                 day: 10, phase: 'step1', badge: 'Step 1: Networking', title: 'DNS Resolution Pipelines & Port Rules', 
@@ -409,11 +409,275 @@
             { 
                 day: 16, phase: 'step2', badge: 'Step 2: K8s', title: 'Kubernetes Cluster Anatomy & Control Topology', 
                 desc: 'Deconstruct cluster control plane orchestration nodes and distributed worker system elements.', 
-                learn: 'Kubernetes groups physical or virtual machines into a single high-availability cluster. The Control Plane runs the master management engines (API Server, etcd state database, and schedulers), while Worker Nodes host the actual application containers.',
+                learn: 'Kubernetes groups machines into a single cluster. The Control Plane runs the master management engines (API Server, etcd state database, and schedulers), while Worker Nodes host the actual application containers.',
                 exercise: 'Start your local Kubernetes playground cluster and evaluate node readiness states using standard commands:<span class="code-block">kubectl cluster-info\nkubectl get nodes</span>' 
             },
             { 
                 day: 17, phase: 'step2', badge: 'Step 2: K8s', title: 'Declarative Pod Configuration Architecture', 
                 desc: 'Study atomic scheduler deployment units configurations schemas inside cluster namespaces.', 
                 learn: 'A Pod is the smallest deployable computing unit in Kubernetes. It wraps one or more closely coupled containers that share the exact same network space, storage assets, and runtime configurations constraints.',
-                exercise: 'Write a basic valid pod manifest block and apply it into your cluster sandbox network:<span class="code-block">echo -e "apiVersion: v1\\nkind: Pod\\nmetadata:\\n  name: alpha-pod\\nspec:\\n  containers:\\n  - name: web\\n    image: nginx:alpine"
+                exercise: 'Write a basic valid pod manifest block and apply it into your cluster sandbox network:<span class="code-block">echo -e "apiVersion: v1\\nkind: Pod\\nmetadata:\\n  name: alpha-pod\\nspec:\\n  containers:\\n  - name: web\\n    image: nginx:alpine" > pod.yaml\nkubectl apply -f pod.yaml\nkubectl get pods</span>' 
+            },
+            { 
+                day: 18, phase: 'step2', badge: 'Step 2: K8s', title: 'Replication Control & Scaled Deployments', 
+                desc: 'Implement self-healing application instances models across cluster topologies paths.', 
+                learn: 'Deployments provide declarative updates for Pods and ReplicaSets. If a host node fails, the deployment controller automatically reschedules missing pods onto a healthy machine, keeping your application online and self-healing.',
+                exercise: 'Deploy an elastic app layout and target instant runtime scaling shifts running:<span class="code-block">kubectl create deployment scalable-app --image=nginx:alpine\nkubectl scale deployment scalable-app --replicas=3\nkubectl get deployments</span>' 
+            },
+            { 
+                day: 19, phase: 'step2', badge: 'Step 2: K8s', title: 'Cluster Routing Services Abstractions', 
+                desc: 'Expose moving container target arrays to external user networks safely using cluster proxies.', 
+                learn: 'Pods are frequently created and destroyed, and their IP addresses change constantly. A Service provides a stable, permanent IP address and DNS name to reliably load-balance traffic across your moving pod instances.',
+                exercise: 'Expose your application deployment behind a stable internal routing proxy boundary gate interface:<span class="code-block">kubectl expose deployment scalable-app --type=ClusterIP --port=80\nkubectl get services</span>' 
+            },
+            { 
+                day: 20, phase: 'step2', badge: 'Step 2: K8s', title: 'Volume Claims & Persistent Pod Storage', 
+                desc: 'Provide persistent cloud network disk resources bindings to cluster pods units.', 
+                learn: 'To keep database data safe inside transient cluster nodes, Kubernetes separates storage management from app config. Pods request disk space using a PersistentVolumeClaim (PVC), which automatically binds to an available storage volume.',
+                exercise: 'Inspect cluster configuration storage allocations capacity options on your local playground console environment:<span class="code-block">kubectl get storageclass</span>' 
+            },
+            { 
+                day: 21, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Cluster Core Component Maintenance', 
+                desc: 'Learn cluster state data preservation patterns and component upgrades safety checkpoints.', 
+                learn: 'The Certified Kubernetes Administrator (CKA) exam tests your core cluster administration skills. A critical requirement is managing etcd—the distributed key-value store that holds the complete ground-truth configuration data of your cluster.',
+                exercise: 'Verify system control plane core component statuses across master node directories layout blocks:<span class="code-block">kubectl get componentstatuses</span>' 
+            },
+            { 
+                day: 22, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Advanced Scheduling & Node Controls', 
+                desc: 'Control cluster pod placement behaviors using Taints, Tolerations, and Affinities rules.', 
+                learn: 'By default, the Kubernetes scheduler spreads workloads evenly across all available nodes. Use Taints and Tolerations to repel pods from specific nodes, or use Node Affinity to ensure specific pods only deploy onto machines with matching hardware characteristics.',
+                exercise: 'Apply an explicit identifying tag attribute marker to an active target worker node instance node partition:<span class="code-block">kubectl label nodes --all hardware=highperf</span>' 
+            },
+            { 
+                day: 23, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Secure Network Policies Configurations', 
+                desc: 'Control multi-namespace pod traffic pathways streams using explicit packet firewall filters.', 
+                learn: 'By default, all pods in a Kubernetes cluster can talk to each other without restriction. NetworkPolicies act as cluster-wide firewalls, allowing you to secure your infrastructure by restricting traffic to explicit pod labels or namespaces.',
+                exercise: 'Review cluster active network filtering restrictions frameworks on current workspace parameters console:<span class="code-block">kubectl get netpol -A</span>' 
+            },
+            { 
+                day: 24, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Diagnostic Troubleshooting Workflows', 
+                desc: 'Trace cluster component failures, inspect faulty runtimes states, and check tracking events log maps.', 
+                learn: 'When deployments fail, use standard diagnostic commands to investigate the issue: kubectl logs reads application output errors, kubectl describe shows cluster scheduling states, and kubectl get events highlights cluster runtime errors.',
+                exercise: 'Diagnose a target cluster workload failure state and parse output logs streams using tracking commands:<span class="code-block">kubectl get events --sort-by=\'.metadata.creationTimestamp\'</span>' 
+            },
+            { 
+                day: 25, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Practical Simulation Dry-Run Mock', 
+                desc: 'Validate complete administrative readiness capabilities within timed complex simulation parameters.', 
+                learn: 'The real-world practice of a CKA infrastructure administrator means interacting directly with multiple contexts. Learn to change system context layers cleanly using config flags targets paths.',
+                exercise: 'Validate master configurations contexts changes operations running standard environment indicators parameters:<span class="code-block">kubectl config get-contexts</span>' 
+            },
+            { 
+                day: 26, phase: 'step3', badge: 'Step 3: IaC', title: 'Declarative Cloud Blueprint Architecture', 
+                desc: 'Understand how writing infrastructure as code prevents environmental drift.', 
+                learn: 'Infrastructure as Code (IaC) allows you to define cloud resources in plain text configuration files. This makes your infrastructure version-controlled, easily repeatable, and completely immune to the configuration drift caused by manual UI click changes.',
+                exercise: 'Establish a clean project blueprint sandbox directory and initialize the provider core system engine modules:<span class="code-block">mkdir -p ~/tf_academy && cd ~/tf_academy\necho \'terraform { required_version = ">= 1.0" }\' > main.tf\nterraform init</span>' 
+            },
+            { 
+                day: 27, phase: 'step3', badge: 'Step 3: IaC', title: 'HCL Structural Blocks & Core Resources', 
+                desc: 'Deconstruct HashiCorp Configuration Language parameters rules and structural components declarations.', 
+                learn: 'HCL uses simple declarative resource blocks to manage infrastructure. A resource block takes a type and a name argument: resource "provider_type" "local_name". This tells Terraform exactly what object to build and how to reference it elsewhere in your code.',
+                exercise: 'Add a local text file creator resource definition block into your configuration layout and execute verification runs:<span class="code-block">echo -e "resource \\"local_file\\" \\"demo\\" {\\n  content  = \\"DevOps Blueprint Infrastructure\\"\\n  filename = \\"\${path.module}/lab.txt\\"\\n}" >> main.tf\nterraform init</span>' 
+            },
+            { 
+                day: 28, phase: 'step3', badge: 'Step 3: IaC', title: 'Predictive Executions & Live Modification Plans', 
+                desc: 'Generate execution preview blueprints before altering active cloud configurations.', 
+                learn: 'Terraform calculates an explicit dependency graph of your infrastructure. Running a plan compares your local code against the active cloud state, generating a safe preview list of exactly what will be added, changed, or destroyed before any modifications are applied.',
+                exercise: 'Run prediction plans and apply them to watch Terraform generate your infrastructure objects dynamically:<span class="code-block">terraform plan\nterraform apply -auto-approve\ncat lab.txt</span>' 
+            },
+            { 
+                day: 29, phase: 'step3', badge: 'Step 3: IaC', title: 'State Engine Lifecycle Files Locking', 
+                desc: 'Secure your critical state mapping logs database using remote backend locking setups.', 
+                learn: 'The state file tracks the relationship between your configuration code and real-world deployed cloud assets. In team environments, store this file in a remote repository (like AWS S3 or Azure Blob) with locking enabled (via DynamoDB) to prevent concurrent updates from breaking your infrastructure.',
+                exercise: 'Inspect your active system tracking records dictionary details generated inside your local working directories:<span class="code-block">terraform show</span>' 
+            },
+            { 
+                day: 30, phase: 'step3', badge: 'Step 3: IaC', title: 'Parametric Input Variables & Module Reusability', 
+                desc: 'Extract hardcoded configurations text strings out into portables reusable modules formats.', 
+                learn: 'Variables make your infrastructure code dynamic and customizable. Instead of hardcoding values directly into your logic blocks, define abstract input parameters so the exact same codebase can safely deploy identical, isolated development, staging, and production environments.',
+                exercise: 'Refactor your main configuration script block using parameter definitions tags arrays variables models:<span class="code-block">echo -e "variable \\"file_text\\" {\\n  type = string\\n  default = \\"Parametric content\\"\\n}" > variables.tf</span>' 
+            },
+            { 
+                day: 31, phase: 'step3', badge: 'Step 3: IaC', title: 'Advanced Interations Loops & Conditionals', 
+                desc: 'Leverage conditional flags logic blocks and resource array loops inside infrastructure design systems.', 
+                learn: 'To scale identical infrastructure resources cleanly without copying and pasting code, master HCL loops like count and for_each. These loops read map values to provision multi-instance cloud infrastructures automatically.',
+                exercise: 'Tear down your temporary local practice infrastructure resources to keep your workspace clean using cleanup command lines:<span class="code-block">terraform destroy -auto-approve</span>' 
+            },
+            { 
+                day: 32, phase: 'step3', badge: 'Step 3: IaC', title: 'Ansible Node Agentless Architecture', 
+                desc: 'Master agentless system updates configuration controls utilizing automated secure shell paths communication lanes.', 
+                learn: 'Unlike toolsets that require installing software on every server, Ansible operates entirely agentless. It connects to target nodes using standard SSH pathways, delivering lightweight configuration modules that execute tasks cleanly before disconnecting.',
+                exercise: 'Check your local version and inspect your default network configuration settings inventory lists paths maps:<span class="code-block">ansible --version</span>' 
+            },
+            { 
+                day: 33, phase: 'step3', badge: 'Step 3: IaC', title: 'Declarative Playbooks & Task Definitions', 
+                desc: 'Model structured automation execution states steps configurations sheets leveraging plain text files.', 
+                learn: 'Ansible playbooks define your automation steps using structured YAML text files. Each playbook maps a group of target inventory hosts to an ordered series of tasks, calling pre-built system modules to manage packages, users, and files.',
+                exercise: 'Write a basic target action instructions playbook execution wrapper testing syntax matching configurations formats.' 
+            },
+            { 
+                day: 34, phase: 'step3', badge: 'Step 3: IaC', title: 'Dynamic Variables, Templates, & Scoped Handlers', 
+                desc: 'Inject configuration parameter modifications variables dynamically into remote operational runtime configs.', 
+                learn: 'Playbooks become highly versatile when configured with variables. You can write generic system configuration templates using Jinja2 formatting syntax; Ansible reads these variables to render custom, site-specific configuration profiles on target machines.',
+                exercise: 'Draft an isolated variables file map and execute evaluation reviews checks testing configurations templates logic parameters.' 
+            },
+            { 
+                day: 35, phase: 'step3', badge: 'Step 3: IaC', title: 'System Roles Modularization Blueprints', 
+                desc: 'Refactor giant single file operations scripts steps into clean standalone reusable components directories structures.', 
+                learn: 'As automation systems grow, monolithic playbook files become difficult to maintain. Ansible Roles solve this by organizing tasks, variables, templates, and files into structured subdirectories, making your configuration management clean and modular.',
+                exercise: 'Inspect subfolders tree paths mapping parameters used to manage complex orchestration tasks groupings blueprints.' 
+            },
+            { 
+                day: 36, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Automation Master Server Engine Deployment', 
+                desc: 'Set up background build pipeline automation tracking servers.', 
+                learn: 'Continuous Integration/Continuous Deployment (CI/CD) automates the process of testing, building, and deploying code. Jenkins is an industry-standard automation server that coordinates these steps using master/worker execution patterns.',
+                exercise: 'Launch a self-contained automation server suite, unlocking configuration admin tracking panels: <span class="inline-code">docker run -d -p 8080:8080 jenkins/jenkins:lts</span>' 
+            },
+            { 
+                day: 37, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Declarative Pipeline Code syntax DSL', 
+                desc: 'Model robust software delivery stages (Build, Test, Deploy) inside clean configuration files.', 
+                learn: 'Modern build pipelines are written as code rather than configured manually through a UI. Jenkins uses a structured domain-specific language (DSL) to define these steps inside a centralized text file named a Jenkinsfile.',
+                exercise: 'Write a functional application source tracking configuration file using standard Jenkinsfile syntax formats.' 
+            },
+            { 
+                day: 38, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Integration Triggers & Webhook Handlers', 
+                desc: 'Automate build verification workflows by processing webhook payloads emitted from remote version repositories platforms.', 
+                learn: 'To achieve true Continuous Integration, your build servers must respond to code updates automatically. By configuring Webhooks, your code repository (like GitHub) sends an automated HTTP notification to your build server to trigger verification checks on every commit.',
+                exercise: 'Configure an immediate automatic build pipeline trigger rule processing updates whenever new code changes occur.' 
+            },
+            { 
+                day: 39, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Distributed Build Agents Architectures', 
+                desc: 'Offload heavy pipeline compiler stress loads away from the master server by scaling lightweight compute execution worker nodes.', 
+                learn: 'Running heavy compilation tasks directly on your primary automation server can cause system slowness. To solve this, route active workloads to distributed execution nodes or transient containers that compile builds safely in isolation.',
+                exercise: 'Configure a detached container workspace execution node node to process incoming build steps tasks efficiently.' 
+            },
+            { 
+                day: 40, phase: 'step4', badge: 'Step 4: CI/CD', title: 'GitLab Native Runner Architecture Maps', 
+                desc: 'Master direct integration of code storage tools with active compilation services via native background workers setups.', 
+                learn: 'GitLab CI uses an integrated platform workflow model. Rather than managing a separate build server, attach lightweight background execution daemons called Runners directly to your code repositories to process compilation jobs.',
+                exercise: 'Register and establish a local pipeline executor daemon connecting to a target code management project space.' 
+            },
+            { 
+                day: 41, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Pipeline Definition Schemas & Cache Optimization', 
+                desc: 'Design clean continuous integration steps, caching dependency artifacts to optimize system compilation times.', 
+                learn: 'GitLab pipelines are configured using a centralized tracking document named .gitlab-ci.yml. Speed up your builds by caching heavy download dependencies (like node_modules packages) across pipeline runs.',
+                exercise: 'Write an active configuration script file named .gitlab-ci.yml containing clear testing and artifact compilation phases.' 
+            },
+            { 
+                day: 42, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Environment Matrix & Dynamic Environments Mapping', 
+                desc: 'Route application code deployments along separate progressive testing environments targets like Staging vs Production paths.', 
+                learn: 'Deploying code requires moving through separate testing stages. Use pipeline environment mappings to route successfully tested builds to staging areas for validation before rolling updates out to live production environments.',
+                exercise: 'Configure environment-specific variable overrides separating testing parameters configurations from final release targets blocks.' 
+            },
+            { 
+                day: 43, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Automated Artifact Registry Management Pipelines', 
+                desc: 'Securely bundle successfully tested build results and export them into safe remote system package registries platforms.', 
+                learn: 'A successful compilation must produce a permanent, version-controlled delivery package. Build pipelines should automate this by building production container images and pushing them straight to secure enterprise registries.',
+                exercise: 'Add a terminal build task step compiling a stable production container image and tracking it to a secure repository.' 
+            },
+            { 
+                day: 44, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Secure Environments Credentials Passwords injection', 
+                desc: 'Safely map critical infrastructure secrets and deployment keys to build runners without risking logging clean text leakages.', 
+                learn: 'Never save production database passwords or cloud access keys in your source code files. Instead, save them securely within your CI/CD platform configuration settings, injecting them as hidden environment variables during pipeline runs.',
+                exercise: 'Inject hidden environment profiles password flags parameters into active workflows tasks using secure configuration variables shields.' 
+            },
+            { 
+                day: 45, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Unified Continuous Integration Pipeline validation', 
+                desc: 'Assemble a rock-solid, fully automated flow: from code updates to build compilation, container creation, and automated test passes.', 
+                learn: 'A complete, automated pipeline links your entire workflow together: a developer pushes code, automated triggers build and test container layers, and verified packages roll out smoothly to production infrastructure environments.',
+                exercise: 'Execute an error-free, multi-stage automated deployment workflow passing artifact evaluation reviews cleanly.' 
+            },
+            { 
+                day: 46, phase: 'step5', badge: 'Step 5: Cloud', title: 'AWS Secure Cloud Virtual Networks Topologies', 
+                desc: 'Master foundational cloud network engineering: creating software-defined global subnets, route tables routing, and network gateways parameters.', 
+                learn: 'AWS infrastructure engineering begins inside an isolated Virtual Private Cloud (VPC). You partition this network using public subnets (for web entry gates facing the internet) and private subnets (to securely isolate backend databases).',
+                exercise: 'Map out a secure cloud network layout incorporating public routing layers and isolated private internal storage subnets.' 
+            },
+            { 
+                day: 47, phase: 'step5', badge: 'Step 5: Cloud', title: 'AWS Elastic Compute Engines & Firewalls Profiles', 
+                desc: 'Deploy cloud compute server instances and configure strict hardware security firewall entry configurations patterns.', 
+                learn: 'Amazon Elastic Compute Cloud (EC2) provides virtual cloud server instances. You secure these compute instances using Security Groups, which act as strict virtual firewalls to control incoming and outgoing traffic rules.',
+                exercise: 'Launch a Linux cloud server instance, applying access profiles permitting only secure shell traffic pathways configurations.' 
+            },
+            { 
+                day: 48, phase: 'step5', badge: 'Step 5: Cloud', title: 'AWS Cloud Operations Access Shield Controls IAM', 
+                desc: 'Enforce strict lowest-privilege operational permissions security policies structures regulating all infrastructure resources APIs controls.', 
+                learn: 'AWS Identity and Access Management (IAM) controls access to cloud APIs. To keep your cloud resources secure, enforce a strict policy of least privilege—only granting accounts the exact minimum permissions required to perform their jobs.',
+                exercise: 'Write an access rule document granting read-only capabilities to storage components while blocking admin changes.' 
+            },
+            { 
+                day: 49, phase: 'step5', badge: 'Step 5: Cloud', title: 'Azure Core Network Topologies & Virtual Machines', 
+                desc: 'Study fundamental cloud resources architectures models inside the Microsoft platform, mapping out resource groups structural models.', 
+                learn: 'Microsoft Azure organizes cloud deployments using logical boundaries called Resource Groups. You deploy cloud computing instances onto isolated Azure Virtual Networks (VNets), controlling incoming traffic using Network Security Groups.',
+                exercise: 'Provision a cloud compute machine template located within a secure, custom-defined virtual network zone environment.' 
+            },
+            { 
+                day: 50, phase: 'step5', badge: 'Step 5: Cloud', title: 'Azure Enterprise Identity Security & Role Access RBAC', 
+                desc: 'Govern multi-tenant infrastructure access pathways allocations securely using enterprise identities structures management patterns.', 
+                learn: 'Azure secures cloud environments using Role-Based Access Control (RBAC). Rather than sharing global root passwords, create granular permissions configurations that grant explicit administrative access scopes to designated user groups.',
+                exercise: 'Assign specific administration resource profile permission scopes to tracking accounts profiles using explicit role definitions.' 
+            },
+            { 
+                day: 51, phase: 'step5', badge: 'Step 5: Cloud', title: 'GCP VPC Network Designs & Compute Engine Pools', 
+                desc: 'Explore global networking topologies design mechanics and elastic compute frameworks options unique to the Google system environment.', 
+                learn: 'Google Cloud Platform (GCP) features a highly flexible global Virtual Private Cloud (VPC) network architecture. You deploy virtual server resources into region-specific quadrants using GCP Compute Engine instances.',
+                exercise: 'Launch a micro compute instance node utilizing custom network routing parameters inside a regional zone quadrant.' 
+            },
+            { 
+                day: 52, phase: 'step5', badge: 'Step 5: Cloud', title: 'Managed Cloud Kubernetes Services Deployments', 
+                desc: 'Deploy production-ready, highly available orchestrated cluster platforms managed entirely by modern cloud provider APIs architectures.', 
+                learn: 'Setting up high-availability Kubernetes environments manually is complex. Cloud engineers save time by using managed cluster infrastructure platforms (like AWS EKS, Azure AKS, or Google Cloud GKE) to automate control plane operations.',
+                exercise: 'Initialize a small cloud managed container cluster (EKS, AKS, or GKE) using your terminal management toolsets.' 
+            },
+            { 
+                day: 53, phase: 'step5', badge: 'Step 5: Cloud', title: 'Cloud Object Storage & Object Access Schemas', 
+                desc: 'Let you use highly resilient, distributed object storage systems to host static static media web components configurations securely.', 
+                learn: 'Object storage systems (like AWS S3 or Azure Blob) provide highly scalable, durable file storage. Use them to securely store system backup archives or host static web media assets without managing physical server disks.',
+                exercise: 'Create an isolated storage container bucket, adjusting object security profiles to allow secure, web browser media reading.' 
+            },
+            { 
+                day: 54, phase: 'step5', badge: 'Step 5: Cloud', title: 'Cloud Automation scaling policies Metrics', 
+                desc: 'Establish self-repairing system elasticity rules that automatically trigger additional compute instances whenever traffic spikes.', 
+                learn: 'Cloud architectures prevent downtime using Auto Scaling Groups. By monitoring resource metrics like CPU utilization, your cloud infrastructure automatically spins up additional server instances during high traffic and tears them down when demand drops.',
+                exercise: 'Define a monitoring rule threshold tracking server stress that expands compute group sizes automatically when limits breach.' 
+            },
+            { 
+                day: 55, phase: 'step5', badge: 'Step 5: Cloud', title: 'Multi-Cloud Architecture Structural Alignment Matrix', 
+                desc: 'Synthesize identical structural concepts (Network, Compute, Disk, Identity) cleanly across all three leading cloud ecosystems.', 
+                learn: 'While cloud providers use different marketing names, they share identical underlying engineering concepts. Network, Compute, Storage, and Identity functions operate similarly whether you deploy them inside AWS, Azure, or GCP configurations.',
+                exercise: 'Build a reference architecture block document comparing comparable service component names across AWS, Azure, and GCP.' 
+            },
+            { 
+                day: 56, phase: 'step6', badge: 'Step 6: Monitor', title: 'Prometheus Time-Series Metric Scraper Configuration', 
+                desc: 'Study time-series telemetry data collection models and establish active background targets metrics poll cycles settings.', 
+                learn: 'Monitoring tracks infrastructure health. Prometheus is a powerful time-series monitoring system that scrapes numerical performance metrics from application endpoints at regular intervals, saving them as historical data rows.',
+                exercise: 'Configure a data scraper collector engine routing file mapping to active compute node operational status endpoints.' 
+            },
+            { 
+                day: 57, phase: 'step6', badge: 'Step 6: Monitor', title: 'Grafana Telemetry Insight Dashboard Designs', 
+                desc: 'Transform raw numerical telemetry tables logs fields into easily readable real-time visual system health dashboards charts.', 
+                learn: 'Raw log tables and data matrices are difficult to read quickly during an outage. Grafana connects to monitoring data stores like Prometheus, transforming raw metrics into real-time visual dashboards to help engineering teams track system health.',
+                exercise: 'Link a metric collection source to a visualization engine workspace, charting real-time storage and processor utilization graphs.' 
+            },
+            { 
+                day: 58, phase: 'step6', badge: 'Step 6: Monitor', title: 'Elasticsearch Search indexing Database Engines', 
+                desc: 'Deploy high-performance distributed document repositories structures optimization models capable of parsing text fields data rapidly.', 
+                learn: 'While monitoring handles metrics, logging tracks explicit textual application histories. Elasticsearch acts as a highly distributed text indexing engine, allowing you to search through millions of system log lines shifts instantly.',
+                exercise: 'Establish an active indexing cluster mapping pattern optimized to process data payloads streams generated from application logs.' 
+            },
+            { 
+                day: 59, phase: 'step6', badge: 'Step 6: Monitor', title: 'Logstash Data Stream Pipeline Filters', 
+                desc: 'Ingest raw, unorganized system event files strings, parsing strings data structures into structured, valuable metrics objects arrays.', 
+                learn: 'Raw text logs generated by different apps use heavily mismatched formatting. Logstash sits between your applications and your storage databases, intercepting raw text streams and converting them into clean, uniformly structured JSON objects.',
+                exercise: 'Author a log parser config parsing unorganized system log text fields into timestamped data rows fields.' 
+            },
+            { 
+                day: 60, phase: 'step6', badge: 'Step 6: Monitor', title: 'Kibana Unified Cloud Observability Platform Calibration', 
+                desc: 'Assemble everything together into a central web command hub. Query global logs errors traces across your entire multi-cloud stack.', 
+                learn: 'Kibana provides the frontend visualization layer for the Elasticsearch database. It completes your observability stack, giving you a central dashboard to query errors, look up application traces, and troubleshoot system anomalies across your entire cloud footprint.',
+                exercise: 'Build an end-to-end telemetry system dashboard tracking application anomalies, bringing your 60-day roadmap to a successful finish!' 
+            }
+        ];
+
+        // Core Date Computation Engines
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate
