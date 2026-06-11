@@ -271,15 +271,6 @@
             display: block;
             border: 1px solid #1e293b;
         }
-        
-        .inline-code {
-            background: #000;
-            color: #ff79c6;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-        }
     </style>
 </head>
 <body>
@@ -287,13 +278,13 @@
     <div class="container">
         <header>
             <h1>DevOps & Cloud Infrastructure Interactive Academy</h1>
-            <p class="dates-banner" id="dateBanner">Initial setup running...</p>
+            <p class="dates-banner" id="dateBanner">Course Track Timeline Calculating...</p>
             <p style="color: var(--text-muted)">Tap a Day Title text to open tutorials and exercises. Check boxes to save your progress.</p>
         </header>
 
         <div class="progress-container">
             <div class="progress-stats">
-                <span style="font-weight: bold; font-size: 1.1rem;">Roadmap Completion Progress</span>
+                <span style="font-weight: bold; font-size: 1.1rem;">Roadmap Progress</span>
                 <span id="progressText" style="font-weight: bold; color: var(--accent-final)">0% (0/60 Complete)</span>
             </div>
             <div class="progress-bar-bg">
@@ -311,456 +302,348 @@
             <div class="tab" data-phase="step6">Step 6: Monitor</div>
         </div>
 
-        <div id="timeline"></div>
-    </div>
-
-    <script>
-        const syllabus = [
-            { 
-                day: 1, phase: 'step1', badge: 'Step 1: Linux', title: 'File System & Navigation Mechanics', 
-                desc: 'Master Linux directory structures and user execution pathways.', 
-                learn: 'The Linux file system is organized like an inverted tree starting at the root directory (/). Key paths include: <br>• /etc: Core configuration files.<br>• /var/log: Dynamic system trace logs.<br>• /home: Individual user environment scopes.<br>Understanding pathways prevents accidental directory manipulation or missing configurations root failures.',
-                exercise: 'Create structured playground practice lanes and navigate them securely:<span class="code-block">mkdir -p ~/devops/linux_labs && cd ~/devops/linux_labs && pwd</span>' 
-            },
-            { 
-                day: 2, phase: 'step1', badge: 'Step 1: Linux', title: 'Text Manipulation & Processing Streams', 
-                desc: 'Study data stream piping, matching regular expressions, and parsing configurations outputs.', 
-                learn: 'Linux systems treat text as data streams. Pipes (|) allow you to route the output of one utility to the input of another. Essential parsing commands include:<br>• grep: Filters text matching patterns.<br>• awk: Powerful column-based data extraction filter.<br>• sed: Stream editor used to replace text inside configuration templates on the fly.',
-                exercise: 'Extract and count specific HTTP 500 server errors from a mock system log file string:<span class="code-block">echo -e "200 OK\\n500 Internal Error\\n404 Not Found\\n500 Gateway Timeout" > access.log\ncat access.log | grep "500" | wc -l</span>' 
-            },
-            { 
-                day: 3, phase: 'step1', badge: 'Step 1: Linux', title: 'User Permissions & Process Execution', 
-                desc: 'Explore user access limits and tracking active system resource metrics.', 
-                learn: 'Linux enforces safety by dividing file controls into three categories: Read (r=4), Write (w=2), and Execute (x=1) mapped across Owner, Group, and Public scopes. Use chmod to change permissions and ps aux or top to monitor live CPU-consuming application daemons.',
-                exercise: 'Create a simple text shell script file, elevate its system run privileges, and track its active process tree profile:<span class="code-block">echo -e "#!/bin/bash\\necho \'Running Securely\'" > run_lab.sh\nchmod 755 run_lab.sh\n./run_lab.sh</span>' 
-            },
-            { 
-                day: 4, phase: 'step1', badge: 'Step 1: Linux', title: 'Shell Scripting Variable Operations', 
-                desc: 'Learn to automate administrative tasks using local terminal environment variables structures.', 
-                learn: 'Shell scripts automate standard CLI commands. Variables store temporary states and paths dynamically without hardcoding system configurations. Always declare the interpreter type using a shebang line (#!/bin/bash) at the very top of your scripting documents to guarantee consistency.',
-                exercise: 'Write a basic variables layout wrapper logging deployment locations dynamically:<span class="code-block">echo -e "#!/bin/bash\\nTARGET=\'production_node\'\\necho \'Deploying code components to \$TARGET\'" > environment.sh\\nbash environment.sh</span>' 
-            },
-            { 
-                day: 5, phase: 'step1', badge: 'Step 1: Linux', title: 'Shell Script Loops & Control Statements', 
-                desc: 'Implement conditional paths logic and loop scripts structures to handle repetitive tasks.', 
-                learn: 'Control blocks allow your automation scripts to react dynamically to changes. Use if [ condition ] blocks to verify if configuration profiles or backup files exist, and wrap repetitive execution jobs inside clean for or while loop parameters.',
-                exercise: 'Create an automated loop testing host connections parameters or building incremental backup directories:<span class="code-block">for i in 1 2 3; do mkdir -p "backup_v\$i"; done\nls -l</span>' 
-            },
-            { 
-                day: 6, phase: 'step1', badge: 'Step 1: Git', title: 'Git Core Plumbing & Working Tree States', 
-                desc: 'Deconstruct internal tracking layers from local working fields into commits history trees.', 
-                learn: 'Git tracks modifications across three main architectural states:<br>1. Working Directory: Modifying untracked source assets files.<br>2. Staging Area (Index): Bundling snapshots of files ready to commit.<br>3. Git Directory (Repository): Permanently storing records inside the local ledger.',
-                exercise: 'Initialize an empty local project workspace and commit a file to freeze its historical state metadata:<span class="code-block">git init\necho "v1.0" > app.conf\ngit add app.conf\ngit commit -m "chore: save configuration profile"</span>' 
-            },
-            { 
-                day: 7, phase: 'step1', badge: 'Step 1: Git', title: 'Branching Management & Collaborative Integration', 
-                desc: 'Isolate experimental features lanes and resolve configuration merge conflicts.', 
-                learn: 'Branches are lightweight, movable pointers to distinct development streams. Isolating changes inside a feature/ branch protects production environments. Merging combines distinct code timelines into a single target tracking path.',
-                exercise: 'Branch out, run separate line adjustments, and execute a code integration update sequence safely:<span class="code-block">git checkout -b feature/configs\necho "debug=true" >> app.conf\ngit add app.conf && git commit -m "feat: turn on diagnostics"\ngit checkout -; git merge feature/configs</span>' 
-            },
-            { 
-                day: 8, phase: 'step1', badge: 'Step 1: Networking', title: 'OSI Model Protocols & Dynamic TCP/IP Routing', 
-                desc: 'Study data packet encapsulation steps and connection verification networks pathways.', 
-                learn: 'The Open Systems Interconnection (OSI) framework partitions global network data transportation into 7 logical boundaries. Cloud Infrastructure engineers focus heavily on Layer 3 (Network) for IP addressing and Layer 4 (Transport) for TCP/UDP tracking.',
-                exercise: 'Inspect your active system default network gateways parameters and trace remote routing lookup paths mapping to domains: <span class="code-block">ping -c 3 github.com</span>' 
-            },
-            { 
-                day: 9, phase: 'step1', badge: 'Step 1: Networking', title: 'Subnet Addressing Systems & CIDR Blocks', 
-                desc: 'Deconstruct cloud private network isolation walls using Classless Inter-Domain Routing boundaries.', 
-                learn: 'CIDR blocks define network boundaries. An IP configuration string like 10.0.0.0/16 provides a large global sandbox of addresses, while tighter masks like /24 partition that pool into localized network tiers.',
-                exercise: 'Calculate IP allocations capacity boundaries: A standard /24 allocation block contains 256 total addresses (251 usable inside cloud spaces after accounting for systemic cloud architecture reserves).' 
-            },
-            { 
-                day: 10, phase: 'step1', badge: 'Step 1: Networking', title: 'DNS Resolution Pipelines & Port Rules', 
-                desc: 'Study domain mapping translation pipelines and system network port accessibility rules.', 
-                learn: 'Domain Name System (DNS) maps human-readable URLs to matching physical server IP addresses. Network applications bind to explicit numerical ports to listen for connection requests (e.g., HTTP sits on Port 80, HTTPS on Port 443, and SSH administration sits on Port 22).',
-                exercise: 'Check live web application header values and look up remote server destination resolution profiles using network commands:<span class="code-block">curl -I https://www.cloudflare.com</span>' 
-            },
-            { 
-                day: 11, phase: 'step2', badge: 'Step 2: Containers', title: 'Container Runtimes vs Virtual Hardwares', 
-                desc: 'Understand kernel shared virtualization systems making containers lightweight.', 
-                learn: 'Virtual Machines pack a full, heavy guest Operating System complete with virtual hardware emulators. Containers run as isolated processes directly on the host machine kernel using Linux namespaces (for isolation) and cgroups (for resource limits). This makes them incredibly fast, efficient, and lightweight.',
-                exercise: 'Verify your engine version and pull down an ultralight, isolated Alpine base image to your local registry runtime cache:<span class="code-block">docker --version\ndocker pull alpine:latest\ndocker images</span>' 
-            },
-            { 
-                day: 12, phase: 'step2', badge: 'Step 2: Containers', title: 'Docker CLI Execution Lifecycle Matrix', 
-                desc: 'Master managing container operational run states and tracking telemetry streams fields.', 
-                learn: 'A container passes through clear lifecycle points: Created, Running, Stopped, and Destroyed. Use docker run -d to launch containers safely in the background, docker ps to monitor active runs, and docker logs to read the application stdout streams.',
-                exercise: 'Launch an isolated background web server instance, evaluate its operational metrics, and safely shut it down:<span class="code-block">docker run -d -p 8080:80 --name test-host nginx:alpine\ndocker ps\ndocker logs test-host\ndocker stop test-host && docker rm test-host</span>' 
-            },
-            { 
-                day: 13, phase: 'step2', badge: 'Step 2: Containers', title: 'Dockerfile Assembly Architecture Blueprints', 
-                desc: 'Construct secure immutable application base layers configurations blocks.', 
-                learn: 'A Dockerfile is an automated recipe step sheet. Every command statement (like RUN or COPY) generates a permanent read-only layer on the filesystem. Ordering instructions from least-frequently-changed to most-frequently-changed maximizes build cache efficiency.',
-                exercise: 'Write a basic custom app container specification and build it into an executable system artifact:<span class="code-block">echo -e "FROM alpine\\nRUN apk add --no-cache curl\\nCMD [\'curl\', \'-I\', \'https://github.com\']" > Dockerfile\ndocker build -t web-checker:v1 .\ndocker run --rm web-checker:v1</span>' 
-            },
-            { 
-                day: 14, phase: 'step2', badge: 'Step 2: Containers', title: 'Volume Storage Persistence & Shared Networks', 
-                desc: 'Isolate container networking planes and persist critical state database data.', 
-                learn: 'Containers are ephemeral—any data written inside them disappears forever when the container is deleted. To protect your data, map permanent storage directories to the host using Volumes. To allow containers to talk to each other safely, group them together on isolated internal Bridge Networks.',
-                exercise: 'Establish an application bridge network channel using command parameters:<span class="code-block">docker network create isolated-tier\ndocker run -d --name cache-node --network isolated-tier redis:alpine\ndocker run --rm --network isolated-tier alpine ping -c 2 cache-node</span>' 
-            },
-            { 
-                day: 15, phase: 'step2', badge: 'Step 2: Containers', title: 'Multi-Service Orchestration with Compose', 
-                desc: 'Manage multi-tier infrastructure environments configurations from a single file.', 
-                learn: 'Docker Compose eliminates the need to run long, complicated single-line CLI commands. It uses a single structured YAML file to spin up multiple interconnected services, handle environment variables, and manage ports simultaneously.',
-                exercise: 'Write a composition template file to launch a multi-service stack with a single command:<span class="code-block">echo -e "version: \'3\'\\nservices:\\n  web:\\n    image: nginx:alpine\\n    ports:\\n      - \'8888:80\'" > docker-compose.yml\ndocker compose up -d\ndocker compose ps\ndocker compose down</span>' 
-            },
-            { 
-                day: 16, phase: 'step2', badge: 'Step 2: K8s', title: 'Kubernetes Cluster Anatomy & Control Topology', 
-                desc: 'Deconstruct cluster control plane orchestration nodes and distributed worker system elements.', 
-                learn: 'Kubernetes groups machines into a single cluster. The Control Plane runs the master management engines (API Server, etcd state database, and schedulers), while Worker Nodes host the actual application containers.',
-                exercise: 'Start your local Kubernetes playground cluster and evaluate node readiness states using standard commands:<span class="code-block">kubectl cluster-info\nkubectl get nodes</span>' 
-            },
-            { 
-                day: 17, phase: 'step2', badge: 'Step 2: K8s', title: 'Declarative Pod Configuration Architecture', 
-                desc: 'Study atomic scheduler deployment units configurations schemas inside cluster namespaces.', 
-                learn: 'A Pod is the smallest deployable computing unit in Kubernetes. It wraps one or more closely coupled containers that share the exact same network space, storage assets, and runtime configurations constraints.',
-                exercise: 'Write a basic valid pod manifest block and apply it into your cluster sandbox network:<span class="code-block">echo -e "apiVersion: v1\\nkind: Pod\\nmetadata:\\n  name: alpha-pod\\nspec:\\n  containers:\\n  - name: web\\n    image: nginx:alpine" > pod.yaml\nkubectl apply -f pod.yaml\nkubectl get pods</span>' 
-            },
-            { 
-                day: 18, phase: 'step2', badge: 'Step 2: K8s', title: 'Replication Control & Scaled Deployments', 
-                desc: 'Implement self-healing application instances models across cluster topologies paths.', 
-                learn: 'Deployments provide declarative updates for Pods and ReplicaSets. If a host node fails, the deployment controller automatically reschedules missing pods onto a healthy machine, keeping your application online and self-healing.',
-                exercise: 'Deploy an elastic app layout and target instant runtime scaling shifts running:<span class="code-block">kubectl create deployment scalable-app --image=nginx:alpine\nkubectl scale deployment scalable-app --replicas=3\nkubectl get deployments</span>' 
-            },
-            { 
-                day: 19, phase: 'step2', badge: 'Step 2: K8s', title: 'Cluster Routing Services Abstractions', 
-                desc: 'Expose moving container target arrays to external user networks safely using cluster proxies.', 
-                learn: 'Pods are frequently created and destroyed, and their IP addresses change constantly. A Service provides a stable, permanent IP address and DNS name to reliably load-balance traffic across your moving pod instances.',
-                exercise: 'Expose your application deployment behind a stable internal routing proxy boundary gate interface:<span class="code-block">kubectl expose deployment scalable-app --type=ClusterIP --port=80\nkubectl get services</span>' 
-            },
-            { 
-                day: 20, phase: 'step2', badge: 'Step 2: K8s', title: 'Volume Claims & Persistent Pod Storage', 
-                desc: 'Provide persistent cloud network disk resources bindings to cluster pods units.', 
-                learn: 'To keep database data safe inside transient cluster nodes, Kubernetes separates storage management from app config. Pods request disk space using a PersistentVolumeClaim (PVC), which automatically binds to an available storage volume.',
-                exercise: 'Inspect cluster configuration storage allocations capacity options on your local playground console environment:<span class="code-block">kubectl get storageclass</span>' 
-            },
-            { 
-                day: 21, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Cluster Core Component Maintenance', 
-                desc: 'Learn cluster state data preservation patterns and component upgrades safety checkpoints.', 
-                learn: 'The Certified Kubernetes Administrator (CKA) exam tests your core cluster administration skills. A critical requirement is managing etcd—the distributed key-value store that holds the complete ground-truth configuration data of your cluster.',
-                exercise: 'Verify system control plane core component statuses across master node directories layout blocks:<span class="code-block">kubectl get componentstatuses</span>' 
-            },
-            { 
-                day: 22, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Advanced Scheduling & Node Controls', 
-                desc: 'Control cluster pod placement behaviors using Taints, Tolerations, and Affinities rules.', 
-                learn: 'By default, the Kubernetes scheduler spreads workloads evenly across all available nodes. Use Taints and Tolerations to repel pods from specific nodes, or use Node Affinity to ensure specific pods only deploy onto machines with matching hardware characteristics.',
-                exercise: 'Apply an explicit identifying tag attribute marker to an active target worker node instance node partition:<span class="code-block">kubectl label nodes --all hardware=highperf</span>' 
-            },
-            { 
-                day: 23, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Secure Network Policies Configurations', 
-                desc: 'Control multi-namespace pod traffic pathways streams using explicit packet firewall filters.', 
-                learn: 'By default, all pods in a Kubernetes cluster can talk to each other without restriction. NetworkPolicies act as cluster-wide firewalls, allowing you to secure your infrastructure by restricting traffic to explicit pod labels or namespaces.',
-                exercise: 'Review cluster active network filtering restrictions frameworks on current workspace parameters console:<span class="code-block">kubectl get netpol -A</span>' 
-            },
-            { 
-                day: 24, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Diagnostic Troubleshooting Workflows', 
-                desc: 'Trace cluster component failures, inspect faulty runtimes states, and check tracking events log maps.', 
-                learn: 'When deployments fail, use standard diagnostic commands to investigate the issue: kubectl logs reads application output errors, kubectl describe shows cluster scheduling states, and kubectl get events highlights cluster runtime errors.',
-                exercise: 'Diagnose a target cluster workload failure state and parse output logs streams using tracking commands:<span class="code-block">kubectl get events --sort-by=\'.metadata.creationTimestamp\'</span>' 
-            },
-            { 
-                day: 25, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Practical Simulation Dry-Run Mock', 
-                desc: 'Validate complete administrative readiness capabilities within timed complex simulation parameters.', 
-                learn: 'The real-world practice of a CKA infrastructure administrator means interacting directly with multiple contexts. Learn to change system context layers cleanly using config flags targets paths.',
-                exercise: 'Validate master configurations contexts changes operations running standard environment indicators parameters:<span class="code-block">kubectl config get-contexts</span>' 
-            },
-            { 
-                day: 26, phase: 'step3', badge: 'Step 3: IaC', title: 'Declarative Cloud Blueprint Architecture', 
-                desc: 'Understand how writing infrastructure as code prevents environmental drift.', 
-                learn: 'Infrastructure as Code (IaC) allows you to define cloud resources in plain text configuration files. This makes your infrastructure version-controlled, easily repeatable, and completely immune to the configuration drift caused by manual UI click changes.',
-                exercise: 'Establish a clean project blueprint sandbox directory and initialize the provider core system engine modules:<span class="code-block">mkdir -p ~/tf_academy && cd ~/tf_academy\necho \'terraform { required_version = ">= 1.0" }\' > main.tf\nterraform init</span>' 
-            },
-            { 
-                day: 27, phase: 'step3', badge: 'Step 3: IaC', title: 'HCL Structural Blocks & Core Resources', 
-                desc: 'Deconstruct HashiCorp Configuration Language parameters rules and structural components declarations.', 
-                learn: 'HCL uses simple declarative resource blocks to manage infrastructure. A resource block takes a type and a name argument: resource "provider_type" "local_name". This tells Terraform exactly what object to build and how to reference it elsewhere in your code.',
-                exercise: 'Add a local text file creator resource definition block into your configuration layout and execute verification runs:<span class="code-block">echo -e "resource \\"local_file\\" \\"demo\\" {\\n  content  = \\"DevOps Blueprint Infrastructure\\"\\n  filename = \\"\${path.module}/lab.txt\\"\\n}" >> main.tf\nterraform init</span>' 
-            },
-            { 
-                day: 28, phase: 'step3', badge: 'Step 3: IaC', title: 'Predictive Executions & Live Modification Plans', 
-                desc: 'Generate execution preview blueprints before altering active cloud configurations.', 
-                learn: 'Terraform calculates an explicit dependency graph of your infrastructure. Running a plan compares your local code against the active cloud state, generating a safe preview list of exactly what will be added, changed, or destroyed before any modifications are applied.',
-                exercise: 'Run prediction plans and apply them to watch Terraform generate your infrastructure objects dynamically:<span class="code-block">terraform plan\nterraform apply -auto-approve\ncat lab.txt</span>' 
-            },
-            { 
-                day: 29, phase: 'step3', badge: 'Step 3: IaC', title: 'State Engine Lifecycle Files Locking', 
-                desc: 'Secure your critical state mapping logs database using remote backend locking setups.', 
-                learn: 'The state file tracks the relationship between your configuration code and real-world deployed cloud assets. In team environments, store this file in a remote repository (like AWS S3 or Azure Blob) with locking enabled (via DynamoDB) to prevent concurrent updates from breaking your infrastructure.',
-                exercise: 'Inspect your active system tracking records dictionary details generated inside your local working directories:<span class="code-block">terraform show</span>' 
-            },
-            { 
-                day: 30, phase: 'step3', badge: 'Step 3: IaC', title: 'Parametric Input Variables & Module Reusability', 
-                desc: 'Extract hardcoded configurations text strings out into portables reusable modules formats.', 
-                learn: 'Variables make your infrastructure code dynamic and customizable. Instead of hardcoding values directly into your logic blocks, define abstract input parameters so the exact same codebase can safely deploy identical, isolated development, staging, and production environments.',
-                exercise: 'Refactor your main configuration script block using parameter definitions tags arrays variables models:<span class="code-block">echo -e "variable \\"file_text\\" {\\n  type = string\\n  default = \\"Parametric content\\"\\n}" > variables.tf</span>' 
-            },
-            { 
-                day: 31, phase: 'step3', badge: 'Step 3: IaC', title: 'Advanced Interations Loops & Conditionals', 
-                desc: 'Leverage conditional flags logic blocks and resource array loops inside infrastructure design systems.', 
-                learn: 'To scale identical infrastructure resources cleanly without copying and pasting code, master HCL loops like count and for_each. These loops read map values to provision multi-instance cloud infrastructures automatically.',
-                exercise: 'Tear down your temporary local practice infrastructure resources to keep your workspace clean using cleanup command lines:<span class="code-block">terraform destroy -auto-approve</span>' 
-            },
-            { 
-                day: 32, phase: 'step3', badge: 'Step 3: IaC', title: 'Ansible Node Agentless Architecture', 
-                desc: 'Master agentless system updates configuration controls utilizing automated secure shell paths communication lanes.', 
-                learn: 'Unlike toolsets that require installing software on every server, Ansible operates entirely agentless. It connects to target nodes using standard SSH pathways, delivering lightweight configuration modules that execute tasks cleanly before disconnecting.',
-                exercise: 'Check your local version and inspect your default network configuration settings inventory lists paths maps:<span class="code-block">ansible --version</span>' 
-            },
-            { 
-                day: 33, phase: 'step3', badge: 'Step 3: IaC', title: 'Declarative Playbooks & Task Definitions', 
-                desc: 'Model structured automation execution states steps configurations sheets leveraging plain text files.', 
-                learn: 'Ansible playbooks define your automation steps using structured YAML text files. Each playbook maps a group of target inventory hosts to an ordered series of tasks, calling pre-built system modules to manage packages, users, and files.',
-                exercise: 'Write a basic target action instructions playbook execution wrapper testing syntax matching configurations formats.' 
-            },
-            { 
-                day: 34, phase: 'step3', badge: 'Step 3: IaC', title: 'Dynamic Variables, Templates, & Scoped Handlers', 
-                desc: 'Inject configuration parameter modifications variables dynamically into remote operational runtime configs.', 
-                learn: 'Playbooks become highly versatile when configured with variables. You can write generic system configuration templates using Jinja2 formatting syntax; Ansible reads these variables to render custom, site-specific configuration profiles on target machines.',
-                exercise: 'Draft an isolated variables file map and execute evaluation reviews checks testing configurations templates logic parameters.' 
-            },
-            { 
-                day: 35, phase: 'step3', badge: 'Step 3: IaC', title: 'System Roles Modularization Blueprints', 
-                desc: 'Refactor giant single file operations scripts steps into clean standalone reusable components directories structures.', 
-                learn: 'As automation systems grow, monolithic playbook files become difficult to maintain. Ansible Roles solve this by organizing tasks, variables, templates, and files into structured subdirectories, making your configuration management clean and modular.',
-                exercise: 'Inspect subfolders tree paths mapping parameters used to manage complex orchestration tasks groupings blueprints.' 
-            },
-            { 
-                day: 36, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Automation Master Server Engine Deployment', 
-                desc: 'Set up background build pipeline automation tracking servers.', 
-                learn: 'Continuous Integration/Continuous Deployment (CI/CD) automates the process of testing, building, and deploying code. Jenkins is an industry-standard automation server that coordinates these steps using master/worker execution patterns.',
-                exercise: 'Launch a self-contained automation server suite, unlocking configuration admin tracking panels: <span class="inline-code">docker run -d -p 8080:8080 jenkins/jenkins:lts</span>' 
-            },
-            { 
-                day: 37, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Declarative Pipeline Code syntax DSL', 
-                desc: 'Model robust software delivery stages (Build, Test, Deploy) inside clean configuration files.', 
-                learn: 'Modern build pipelines are written as code rather than configured manually through a UI. Jenkins uses a structured domain-specific language (DSL) to define these steps inside a centralized text file named a Jenkinsfile.',
-                exercise: 'Write a functional application source tracking configuration file using standard Jenkinsfile syntax formats.' 
-            },
-            { 
-                day: 38, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Integration Triggers & Webhook Handlers', 
-                desc: 'Automate build verification workflows by processing webhook payloads emitted from remote version repositories platforms.', 
-                learn: 'To achieve true Continuous Integration, your build servers must respond to code updates automatically. By configuring Webhooks, your code repository (like GitHub) sends an automated HTTP notification to your build server to trigger verification checks on every commit.',
-                exercise: 'Configure an immediate automatic build pipeline trigger rule processing updates whenever new code changes occur.' 
-            },
-            { 
-                day: 39, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Distributed Build Agents Architectures', 
-                desc: 'Offload heavy pipeline compiler stress loads away from the master server by scaling lightweight compute execution worker nodes.', 
-                learn: 'Running heavy compilation tasks directly on your primary automation server can cause system slowness. To solve this, route active workloads to distributed execution nodes or transient containers that compile builds safely in isolation.',
-                exercise: 'Configure a detached container workspace execution node node to process incoming build steps tasks efficiently.' 
-            },
-            { 
-                day: 40, phase: 'step4', badge: 'Step 4: CI/CD', title: 'GitLab Native Runner Architecture Maps', 
-                desc: 'Master direct integration of code storage tools with active compilation services via native background workers setups.', 
-                learn: 'GitLab CI uses an integrated platform workflow model. Rather than managing a separate build server, attach lightweight background execution daemons called Runners directly to your code repositories to process compilation jobs.',
-                exercise: 'Register and establish a local pipeline executor daemon connecting to a target code management project space.' 
-            },
-            { 
-                day: 41, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Pipeline Definition Schemas & Cache Optimization', 
-                desc: 'Design clean continuous integration steps, caching dependency artifacts to optimize system compilation times.', 
-                learn: 'GitLab pipelines are configured using a centralized tracking document named .gitlab-ci.yml. Speed up your builds by caching heavy download dependencies (like node_modules packages) across pipeline runs.',
-                exercise: 'Write an active configuration script file named .gitlab-ci.yml containing clear testing and artifact compilation phases.' 
-            },
-            { 
-                day: 42, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Environment Matrix & Dynamic Environments Mapping', 
-                desc: 'Route application code deployments along separate progressive testing environments targets like Staging vs Production paths.', 
-                learn: 'Deploying code requires moving through separate testing stages. Use pipeline environment mappings to route successfully tested builds to staging areas for validation before rolling updates out to live production environments.',
-                exercise: 'Configure environment-specific variable overrides separating testing parameters configurations from final release targets blocks.' 
-            },
-            { 
-                day: 43, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Automated Artifact Registry Management Pipelines', 
-                desc: 'Securely bundle successfully tested build results and export them into safe remote system package registries platforms.', 
-                learn: 'A successful compilation must produce a permanent, version-controlled delivery package. Build pipelines should automate this by building production container images and pushing them straight to secure enterprise registries.',
-                exercise: 'Add a terminal build task step compiling a stable production container image and tracking it to a secure repository.' 
-            },
-            { 
-                day: 44, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Secure Environments Credentials Passwords injection', 
-                desc: 'Safely map critical infrastructure secrets and deployment keys to build runners without risking logging clean text leakages.', 
-                learn: 'Never save production database passwords or cloud access keys in your source code files. Instead, save them securely within your CI/CD platform configuration settings, injecting them as hidden environment variables during pipeline runs.',
-                exercise: 'Inject hidden environment profiles password flags parameters into active workflows tasks using secure configuration variables shields.' 
-            },
-            { 
-                day: 45, phase: 'step4', badge: 'Step 4: CI/CD', title: 'Unified Continuous Integration Pipeline validation', 
-                desc: 'Assemble a rock-solid, fully automated flow: from code updates to build compilation, container creation, and automated test passes.', 
-                learn: 'A complete, automated pipeline links your entire workflow together: a developer pushes code, automated triggers build and test container layers, and verified packages roll out smoothly to production infrastructure environments.',
-                exercise: 'Execute an error-free, multi-stage automated deployment workflow passing artifact evaluation reviews cleanly.' 
-            },
-            { 
-                day: 46, phase: 'step5', badge: 'Step 5: Cloud', title: 'AWS Secure Cloud Virtual Networks Topologies', 
-                desc: 'Master foundational cloud network engineering: creating software-defined global subnets, route tables routing, and network gateways parameters.', 
-                learn: 'AWS infrastructure engineering begins inside an isolated Virtual Private Cloud (VPC). You partition this network using public subnets (for web entry gates facing the internet) and private subnets (to securely isolate backend databases).',
-                exercise: 'Map out a secure cloud network layout incorporating public routing layers and isolated private internal storage subnets.' 
-            },
-            { 
-                day: 47, phase: 'step5', badge: 'Step 5: Cloud', title: 'AWS Elastic Compute Engines & Firewalls Profiles', 
-                desc: 'Deploy cloud compute server instances and configure strict hardware security firewall entry configurations patterns.', 
-                learn: 'Amazon Elastic Compute Cloud (EC2) provides virtual cloud server instances. You secure these compute instances using Security Groups, which act as strict virtual firewalls to control incoming and outgoing traffic rules.',
-                exercise: 'Launch a Linux cloud server instance, applying access profiles permitting only secure shell traffic pathways configurations.' 
-            },
-            { 
-                day: 48, phase: 'step5', badge: 'Step 5: Cloud', title: 'AWS Cloud Operations Access Shield Controls IAM', 
-                desc: 'Enforce strict lowest-privilege operational permissions security policies structures regulating all infrastructure resources APIs controls.', 
-                learn: 'AWS Identity and Access Management (IAM) controls access to cloud APIs. To keep your cloud resources secure, enforce a strict policy of least privilege—only granting accounts the exact minimum permissions required to perform their jobs.',
-                exercise: 'Write an access rule document granting read-only capabilities to storage components while blocking admin changes.' 
-            },
-            { 
-                day: 49, phase: 'step5', badge: 'Step 5: Cloud', title: 'Azure Core Network Topologies & Virtual Machines', 
-                desc: 'Study fundamental cloud resources architectures models inside the Microsoft platform, mapping out resource groups structural models.', 
-                learn: 'Microsoft Azure organizes cloud deployments using logical boundaries called Resource Groups. You deploy cloud computing instances onto isolated Azure Virtual Networks (VNets), controlling incoming traffic using Network Security Groups.',
-                exercise: 'Provision a cloud compute machine template located within a secure, custom-defined virtual network zone environment.' 
-            },
-            { 
-                day: 50, phase: 'step5', badge: 'Step 5: Cloud', title: 'Azure Enterprise Identity Security & Role Access RBAC', 
-                desc: 'Govern multi-tenant infrastructure access pathways allocations securely using enterprise identities structures management patterns.', 
-                learn: 'Azure secures cloud environments using Role-Based Access Control (RBAC). Rather than sharing global root passwords, create granular permissions configurations that grant explicit administrative access scopes to designated user groups.',
-                exercise: 'Assign specific administration resource profile permission scopes to tracking accounts profiles using explicit role definitions.' 
-            },
-            { 
-                day: 51, phase: 'step5', badge: 'Step 5: Cloud', title: 'GCP VPC Network Designs & Compute Engine Pools', 
-                desc: 'Explore global networking topologies design mechanics and elastic compute frameworks options unique to the Google system environment.', 
-                learn: 'Google Cloud Platform (GCP) features a highly flexible global Virtual Private Cloud (VPC) network architecture. You deploy virtual server resources into region-specific quadrants using GCP Compute Engine instances.',
-                exercise: 'Launch a micro compute instance node utilizing custom network routing parameters inside a regional zone quadrant.' 
-            },
-            { 
-                day: 52, phase: 'step5', badge: 'Step 5: Cloud', title: 'Managed Cloud Kubernetes Services Deployments', 
-                desc: 'Deploy production-ready, highly available orchestrated cluster platforms managed entirely by modern cloud provider APIs architectures.', 
-                learn: 'Setting up high-availability Kubernetes environments manually is complex. Cloud engineers save time by using managed cluster infrastructure platforms (like AWS EKS, Azure AKS, or Google Cloud GKE) to automate control plane operations.',
-                exercise: 'Initialize a small cloud managed container cluster (EKS, AKS, or GKE) using your terminal management toolsets.' 
-            },
-            { 
-                day: 53, phase: 'step5', badge: 'Step 5: Cloud', title: 'Cloud Object Storage & Object Access Schemas', 
-                desc: 'Let you use highly resilient, distributed object storage systems to host static static media web components configurations securely.', 
-                learn: 'Object storage systems (like AWS S3 or Azure Blob) provide highly scalable, durable file storage. Use them to securely store system backup archives or host static web media assets without managing physical server disks.',
-                exercise: 'Create an isolated storage container bucket, adjusting object security profiles to allow secure, web browser media reading.' 
-            },
-            { 
-                day: 54, phase: 'step5', badge: 'Step 5: Cloud', title: 'Cloud Automation scaling policies Metrics', 
-                desc: 'Establish self-repairing system elasticity rules that automatically trigger additional compute instances whenever traffic spikes.', 
-                learn: 'Cloud architectures prevent downtime using Auto Scaling Groups. By monitoring resource metrics like CPU utilization, your cloud infrastructure automatically spins up additional server instances during high traffic and tears them down when demand drops.',
-                exercise: 'Define a monitoring rule threshold tracking server stress that expands compute group sizes automatically when limits breach.' 
-            },
-            { 
-                day: 55, phase: 'step5', badge: 'Step 5: Cloud', title: 'Multi-Cloud Architecture Structural Alignment Matrix', 
-                desc: 'Synthesize identical structural concepts (Network, Compute, Disk, Identity) cleanly across all three leading cloud ecosystems.', 
-                learn: 'While cloud providers use different marketing names, they share identical underlying engineering concepts. Network, Compute, Storage, and Identity functions operate similarly whether you deploy them inside AWS, Azure, or GCP configurations.',
-                exercise: 'Build a reference architecture block document comparing comparable service component names across AWS, Azure, and GCP.' 
-            },
-            { 
-                day: 56, phase: 'step6', badge: 'Step 6: Monitor', title: 'Prometheus Time-Series Metric Scraper Configuration', 
-                desc: 'Study time-series telemetry data collection models and establish active background targets metrics poll cycles settings.', 
-                learn: 'Monitoring tracks infrastructure health. Prometheus is a powerful time-series monitoring system that scrapes numerical performance metrics from application endpoints at regular intervals, saving them as historical data rows.',
-                exercise: 'Configure a data scraper collector engine routing file mapping to active compute node operational status endpoints.' 
-            },
-            { 
-                day: 57, phase: 'step6', badge: 'Step 6: Monitor', title: 'Grafana Telemetry Insight Dashboard Designs', 
-                desc: 'Transform raw numerical telemetry tables logs fields into easily readable real-time visual system health dashboards charts.', 
-                learn: 'Raw log tables and data matrices are difficult to read quickly during an outage. Grafana connects to monitoring data stores like Prometheus, transforming raw metrics into real-time visual dashboards to help engineering teams track system health.',
-                exercise: 'Link a metric collection source to a visualization engine workspace, charting real-time storage and processor utilization graphs.' 
-            },
-            { 
-                day: 58, phase: 'step6', badge: 'Step 6: Monitor', title: 'Elasticsearch Search indexing Database Engines', 
-                desc: 'Deploy high-performance distributed document repositories structures optimization models capable of parsing text fields data rapidly.', 
-                learn: 'While monitoring handles metrics, logging tracks explicit textual application histories. Elasticsearch acts as a highly distributed text indexing engine, allowing you to search through millions of system log lines shifts instantly.',
-                exercise: 'Establish an active indexing cluster mapping pattern optimized to process data payloads streams generated from application logs.' 
-            },
-            { 
-                day: 59, phase: 'step6', badge: 'Step 6: Monitor', title: 'Logstash Data Stream Pipeline Filters', 
-                desc: 'Ingest raw, unorganized system event files strings, parsing strings data structures into structured, valuable metrics objects arrays.', 
-                learn: 'Raw text logs generated by different apps use heavily mismatched formatting. Logstash sits between your applications and your storage databases, intercepting raw text streams and converting them into clean, uniformly structured JSON objects.',
-                exercise: 'Author a log parser config parsing unorganized system log text fields into timestamped data rows fields.' 
-            },
-            { 
-                day: 60, phase: 'step6', badge: 'Step 6: Monitor', title: 'Kibana Unified Cloud Observability Platform Calibration', 
-                desc: 'Assemble everything together into a central web command hub. Query global logs errors traces across your entire multi-cloud stack.', 
-                learn: 'Kibana provides the frontend visualization layer for the Elasticsearch database. It completes your observability stack, giving you a central dashboard to query errors, look up application traces, and troubleshoot system anomalies across your entire cloud footprint.',
-                exercise: 'Build an end-to-end telemetry system dashboard tracking application anomalies, bringing your 60-day roadmap to a successful finish!' 
-            }
-        ];
-
-        // Custom User Start Date Calculation Engines
-        let startTimestamp = localStorage.getItem('devopsAcademy60StartTimestamp');
-        if (!startTimestamp) {
-            startTimestamp = new Date().getTime();
-            localStorage.setItem('devopsAcademy60StartTimestamp', startTimestamp);
-        }
-        
-        const startDateObj = new Date(parseInt(startTimestamp));
-        const endDateObj = new Date(startDateObj.getTime());
-        endDateObj.setDate(endDateObj.getDate() + 59);
-
-        const formatDate = (date) => {
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        };
-
-        document.getElementById('dateBanner').innerText = "Course Track Timeline: " + formatDate(startDateObj) + " to " + formatDate(endDateObj);
-
-        let completedDays = JSON.parse(localStorage.getItem('devopsAcademy60Progress')) || [];
-
-        function renderTimeline(filterPhase = 'all') {
-            const timeline = document.getElementById('timeline');
-            timeline.innerHTML = '';
-
-            syllabus.forEach(item => {
-                if (filterPhase !== 'all' && item.phase !== filterPhase) return;
-
-                const cardDate = new Date(startDateObj.getTime());
-                cardDate.setDate(cardDate.getDate() + (item.day - 1));
-
-                const isCompleted = completedDays.includes(item.day);
-
-                const card = document.createElement('div');
-                card.className = "day-card " + (isCompleted ? "completed" : "");
-                card.setAttribute('data-phase', item.phase);
-                card.setAttribute('data-day', item.day);
-
-                // Assembled on a single line block array to prevent any prospective script compilation string faults
-                card.innerHTML = '<div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(' + item.day + ')"></div></div><div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(' + item.day + ')">Day ' + item.day + ': ' + item.title + '</span><span class="badge badge-' + item.phase + '">' + item.badge + '</span></div><span class="date-label">' + formatDate(cardDate) + '</span></div><p style="color: var(--text-muted); margin-bottom: 4px; font-size:0.95rem;">' + item.desc + '</p><div id="detail-' + item.day + '" class="card-expanded-content"><div class="section-heading">📚 Deep Dive Tutorial Guide:</div><div class="learn-content">' + item.learn + '</div><div class="exercise-box"><strong>🛠️ Hands-on Engineering Lab Blueprint:</strong><br>' + item.exercise + '</div></div></div>';
-                
-                timeline.appendChild(card);
-            });
-            updateProgressBar();
-        }
-
-        function toggleCardDetail(dayNum) {
-            const detailEl = document.getElementById("detail-" + dayNum);
-            if(detailEl.style.display === 'block') {
-                detailEl.style.display = 'none';
-            } else {
-                detailEl.style.display = 'block';
-            }
-        }
-
-        function toggleDay(dayNum) {
-            const index = completedDays.indexOf(dayNum);
-            if (index > -1) {
-                completedDays.splice(index, 1);
-            } else {
-                completedDays.push(dayNum);
-            }
-            localStorage.setItem('devopsAcademy60Progress', JSON.stringify(completedDays));
+        <div id="timeline">
             
-            const card = document.querySelector(".day-card[data-day='" + dayNum + "']");
-            if (card) card.classList.toggle('completed');
+            <div class="day-card" data-phase="step1" data-day="1">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(1)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(1)">Day 1: File System Mechanics</span><span class="badge badge-step1">Step 1: Linux</span></div>
+                        <span class="date-label" data-day-label="1"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Master Linux directory trees and navigation pathways.</p>
+                    <div id="detail-1" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">The Linux file system is an inverted tree starting at root (/). Key paths include /etc for core configurations, /var/log for systems logging logs, and /home for individual user workspace scopes.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Create nested play spaces via terminal:<br><span class="code-block">mkdir -p ~/devops/linux_labs && cd ~/devops/linux_labs && pwd</span></div>
+                    </div>
+                </div>
+            </div>
 
-            updateProgressBar();
-        }
+            <div class="day-card" data-phase="step1" data-day="2">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(2)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(2)">Day 2: Text Processing Streams</span><span class="badge badge-step1">Step 1: Linux</span></div>
+                        <span class="date-label" data-day-label="2"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Study stream pipes, text matching regular filters, and outputs extraction lines.</p>
+                    <div id="detail-2" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Pipes (|) route the output of one command to the input of another. Use grep to look for string matches, awk to isolate data columns, and sed to substitute configurations elements on the fly.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Filter out HTTP server logs errors streams:<br><span class="code-block">echo -e "200 OK\n500 Server Error" > log.txt\ncat log.txt | grep "500"</span></div>
+                    </div>
+                </div>
+            </div>
 
-        function updateProgressBar() {
-            const pct = Math.round((completedDays.length / syllabus.length) * 100);
-            document.getElementById('progressBar').style.width = pct + "%";
-            document.getElementById('progressText').innerText = pct + "% (" + completedDays.length + " / 60 Complete)";
-        }
+            <div class="day-card" data-phase="step1" data-day="3">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(3)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(3)">Day 3: Permissions and Task Monitoring</span><span class="badge badge-step1">Step 1: Linux</span></div>
+                        <span class="date-label" data-day-label="3"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Understand user execute access limits and check resource metrics tracking channels.</p>
+                    <div id="detail-3" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Linux uses bitmasks (Read=4, Write=2, Execute=1) mapped across Owner, Group, and Public scopes. Control file safety levels via chmod, and check system resource stress pools running commands like top or ps aux.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Write a script file, modify access flags, and execute:<br><span class="code-block">echo 'echo "Lab running"' > test.sh\nchmod 755 test.sh\n./test.sh</span></div>
+                    </div>
+                </div>
+            </div>
 
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-                renderTimeline(e.target.getAttribute('data-phase'));
-            });
-        });
+            <div class="day-card" data-phase="step1" data-day="4">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(4)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(4)">Day 4: Script Variables Management</span><span class="badge badge-step1">Step 1: Linux</span></div>
+                        <span class="date-label" data-day-label="4"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Automate complex administrative steps using dynamic script files.</p>
+                    <div id="detail-4" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Variables abstract paths or profile types dynamically inside terminal workflows. Always declare the shebang line path directly on the very top step lines of your files code documents.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Create a basic dynamic execution file wrapper script:<br><span class="code-block">echo -e "#!/bin/bash\nENV='prod'\necho 'Targeting '\$ENV" > run.sh\nbash run.sh</span></div>
+                    </div>
+                </div>
+            </div>
 
-        renderTimeline();
-    </script>
-</body>
-</html>
+            <div class="day-card" data-phase="step1" data-day="5">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(5)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(5)">Day 5: Conditional Logic Loops</span><span class="badge badge-step1">Step 1: Linux</span></div>
+                        <span class="date-label" data-day-label="5"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Structure shell logic conditions block check flows and repetition arrays sequences.</p>
+                    <div id="detail-5" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Use if blocks to test configuration file existences rules, and wrap administrative cleanups tasks inside safe iteration structures loops arrays.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Generate batch backup folders inside a sequence loop wrapper:<br><span class="code-block">for i in 1 2 3; do mkdir -p backup_$i; done</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step1" data-day="6">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(6)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(6)">Day 6: Git Project Plumbings</span><span class="badge badge-step1">Step 1: Git</span></div>
+                        <span class="date-label" data-day-label="6"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Explore untracked files spaces, staging index, and repository commits histories.</p>
+                    <div id="detail-6" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Git tracks projects across three states: your local Working Directory fields, the Staging Index sandbox area, and the permanent local Git Database Repository commit charts logs.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Initialize and run your first commit sequence check:<br><span class="code-block">git init\necho "test" > config.json\ngit add config.json\ngit commit -m "initial file tracking"</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step1" data-day="7">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(7)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(7)">Day 7: Branching Integration</span><span class="badge badge-step1">Step 1: Git</span></div>
+                        <span class="date-label" data-day-label="7"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Manage feature lanes and safely combine development code updates streams.</p>
+                    <div id="detail-7" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Branches are movable references pointing to distinct development lines. Working out of an isolated feature branch preserves system production branches lifelines.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Branch out, execute updates, and combine streams back seamlessly:<br><span class="code-block">git checkout -b patch-v1\necho "v1.1" >> config.json\ngit commit -am "bump version"\ngit checkout -; git merge patch-v1</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step1" data-day="8">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(8)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(8)">Day 8: OSI Routing Models</span><span class="badge badge-step1">Step 1: Networking</span></div>
+                        <span class="date-label" data-day-label="8"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Deconstruct connection transport boundaries and network pathways layers.</p>
+                    <div id="detail-8" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">The 7-layer OSI model structures data transfers pathways over global networks. Cloud Engineers focus heavily on Layer 3 network configurations packages (IP routing logs) and Layer 4 Transport connection pipes strings (TCP/UDP protocols).</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Trace network connectivity lines targeting external tracking points domains maps:<br><span class="code-block">ping -c 3 github.com</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step1" data-day="9">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(9)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(9)">Day 9: CIDR Subnets Allocations</span><span class="badge badge-step1">Step 1: Networking</span></div>
+                        <span class="date-label" data-day-label="9"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Isolate cloud networks footprints using custom netmasks segments boundaries.</p>
+                    <div id="detail-9" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">CIDR notation separates network spaces cleanly. Large blocks provide deep server pools, while small /24 allocations partition segments into distinct tiers (such as internet-facing public subnets vs database blocks).</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>A standard /24 block provides 256 addresses total (251 usable inside cloud architecture quadrants after provider router exclusions).</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step1" data-day="10">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(10)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(10)">Day 10: DNS Resolution and Port Rules</span><span class="badge badge-step1">Step 1: Networking</span></div>
+                        <span class="date-label" data-day-label="10"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Understand domain translation paths and port visibility access locks definitions.</p>
+                    <div id="detail-10" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">DNS translates friendly URLs to numeric IP points. Apps listen on specific ports for requests (e.g., HTTP sits on Port 80, HTTPS on Port 443, and SSH administrative control lanes use Port 22).</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Check response headers metrics returned from web endpoints platforms destinations:<br><span class="code-block">curl -I https://www.google.com</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="11">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(11)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(11)">Day 11: Container Abstractions</span><span class="badge badge-step2">Step 2: Containers</span></div>
+                        <span class="date-label" data-day-label="11"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Learn shared kernel virtualization setups versus heavy guest machine setups.</p>
+                    <div id="detail-11" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Containers isolate runtimes directly on the host kernel using namespaces and cgroups, making them fast and highly scalable compared to traditional Virtual Machines.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Check your local runtime system setup metrics:<br><span class="code-block">docker --version\ndocker pull alpine</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="12">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(12)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(12)">Day 12: Docker CLI Lifecycles</span><span class="badge badge-step2">Step 2: Containers</span></div>
+                        <span class="date-label" data-day-label="12"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Master background run commands and process logs streams monitoring tracks.</p>
+                    <div id="detail-12" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Containers follow clear lifecycles: Created, Running, Stopped, and Destroyed. Track background instances cleanly using standard logging and list tools.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Launch a background web container node instance:<br><span class="code-block">docker run -d -p 8080:80 --name lab-host nginx:alpine\ndocker logs lab-host\ndocker stop lab-host && docker rm lab-host</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="13">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(13)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(13)">Day 13: Dockerfile Compilation Layers</span><span class="badge badge-step2">Step 2: Containers</span></div>
+                        <span class="date-label" data-day-label="13"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Build custom immutable image blueprints incorporating sequential file copy rules.</p>
+                    <div id="detail-13" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Every entry inside a Dockerfile builds an unchangeable image layer. Structure code parameters smartly to exploit localized build caches hits effectively.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Write a basic text configuration script and compile image:<br><span class="code-block">echo -e "FROM alpine\nCMD ['echo','Compiled']" > Dockerfile\ndocker build -t lab-image:v1 .</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="14">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(14)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(14)">Day 14: Data Volumes and Custom Networks</span><span class="badge badge-step2">Step 2: Containers</span></div>
+                        <span class="date-label" data-day-label="14"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Persist critical database states and isolate communication pathways channels.</p>
+                    <div id="detail-14" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Volumes isolate persistent application data away from ephemeral container states. Bridge networks control localized component discoverabilities.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Establish a private communication bridge segment for containers:<br><span class="code-block">docker network create data-tier\ndocker run -d --name cache-store --network data-tier redis:alpine</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="15">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(15)"></div></div>
+                <div>
+                    <div class="day-header">
+                        <div><span class="day-title" onclick="toggleCardDetail(15)">Day 15: Multi-Container Docker Compose</span><span class="badge badge-step2">Step 2: Containers</span></div>
+                        <span class="date-label" data-day-label="15"></span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size:0.95rem;">Orchestrate multi-tier environments fields layouts using single YAML blueprint scripts files.</p>
+                    <div id="detail-15" class="card-expanded-content">
+                        <div class="section-heading">📚 Deep Dive Tutorial:</div>
+                        <div class="learn-content">Compose maps full environments infrastructure layouts programmatically inside code parameters text blocks, removing tedious individual manual creation loops.</div>
+                        <div class="exercise-box"><strong>🛠️ Hands-on Lab:</strong><br>Write a basic multi-service compose mapping file layout and deploy code components:<br><span class="code-block">echo -e "version: '3'\nservices:\n app:\n  image: nginx:alpine" > docker-compose.yml\ndocker compose up -d</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="16">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(16)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(16)">Day 16: Kubernetes Control Plane Architecture</span><span class="badge badge-step2">Step 2: K8s</span></div><span class="date-label" data-day-label="16"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Deconstruct API engines, database object data stores, and backend scheduling nodes components rules.</p>
+                <div id="detail-16" class="card-expanded-content"><div class="learn-content">The master plane runs core controllers while worker machines host pod processes layouts.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="17">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(17)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(17)">Day 17: Pods Configurations Manifests</span><span class="badge badge-step2">Step 2: K8s</span></div><span class="date-label" data-day-label="17"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Study atomic workspace structures and deploy single container yaml blocks rules templates.</p>
+                <div id="detail-17" class="card-expanded-content"><div class="learn-content">Pods group container layers on shared local execution nodes namespaces paths.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="18">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(18)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(18)">Day 18: Scaled Deployments Controllers</span><span class="badge badge-step2">Step 2: K8s</span></div><span class="date-label" data-day-label="18"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Implement self-healing container groups scaling constraints across node pools quadrants.</p>
+                <div id="detail-18" class="card-expanded-content"><div class="learn-content">Deployments track state updates and recreate failed pod assets automatically.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="19">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(19)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(19)">Day 19: Cluster Services Networking</span><span class="badge badge-step2">Step 2: K8s</span></div><span class="date-label" data-day-label="19"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Route user proxy connections to moving pods using ClusterIP routing models tags.</p>
+                <div id="detail-19" class="card-expanded-content"><div class="learn-content">Services abstract networking endpoints behind stable static access IPs gateways.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="20">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(20)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(20)">Day 20: Volume Claims and Stateful Storage</span><span class="badge badge-step2">Step 2: K8s</span></div><span class="date-label" data-day-label="20"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Bind external physical network disks safely inside transient runtime pod filesystems.</p>
+                <div id="detail-20" class="card-expanded-content"><div class="learn-content">PVC files declare storage requests that bind to available underlying hardware volumes blocks.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="21">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(21)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(21)">Day 21: CKA Cluster State Backup Mechanics</span><span class="badge badge-step2">Step 2: CKA</span></div><span class="date-label" data-day-label="21"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Study configuration ledger safety steps using database snapshot tools.</p>
+                <div id="detail-21" class="card-expanded-content"><div class="learn-content">CKA requires backing up core key-value etcd systems components profiles.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="22">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(22)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(22)">Day 22: CKA Node Affinity and Scheduling Controls</span><span class="badge badge-step2">Step 2: CKA</span></div><span class="date-label" data-day-label="22"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Control workload placements using custom Node Taints and Pod Tolerations selectors.</p>
+                <div id="detail-22" class="card-expanded-content"><div class="learn-content">Affinity parameters route app code explicitly to qualified node hardware pools segments.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="23">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(23)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(23)">Day 23: CKA Namespace Network Firewall Policies</span><span class="badge badge-step2">Step 2: CKA</span></div><span class="date-label" data-day-label="23"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Isolate inter-pod communications lines using explicit ingress block manifests layout templates.</p>
+                <div id="detail-23" class="card-expanded-content"><div class="learn-content">NetworkPolicies block unauthorized traffic streams across cluster namespaces lanes.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="24">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(24)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(24)">Day 24: CKA Diagnostic Event Triage Workflows</span><span class="badge badge-step2">Step 2: CKA</span></div><span class="date-label" data-day-label="24"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Debug cluster configuration crashes, inspect errors logs strings, and map traces paths elements.</p>
+                <div id="detail-24" class="card-expanded-content"><div class="learn-content">Use describe and logs directives to isolate failing pods metrics parameters.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step2" data-day="25">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(25)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(25)">Day 25: CKA Operational Simulation Review Mock</span><span class="badge badge-step2">Step 2: CKA</span></div><span class="date-label" data-day-label="25"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Solve multi-fault scenarios within strict validation timeline limits constraints parameters.</p>
+                <div id="detail-25" class="card-expanded-content"><div class="learn-content">Practice rapid context shifts and file restoration tasks on local practice nodes.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step3" data-day="26">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(26)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(26)">Day 26: Terraform Core Initializations</span><span class="badge badge-step3">Step 3: IaC</span></div><span class="date-label" data-day-label="26"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Transition into Infrastructure as Code blueprints and configure provider plugins pools.</p>
+                <div id="detail-26" class="card-expanded-content"><div class="learn-content">IaC creates safe, repeatable cloud footprints, replacing manual user dashboard configurations clicks loops.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step3" data-day="27">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(27)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(27)">Day 27: HCL Syntax Blocks and Resource Schemes</span><span class="badge badge-step3">Step 3: IaC</span></div><span class="date-label" data-day-label="27"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Study configuration arguments and declare cloud network blocks elements structures.</p>
+                <div id="detail-27" class="card-expanded-content"><div class="learn-content">HCL resource definitions link explicitly to downstream targets objects configurations engines inside active providers frameworks.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step3" data-day="28">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(28)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(28)">Day 28: Predictive Execution Plans Generation</span><span class="badge badge-step3">Step 3: IaC</span></div><span class="date-label" data-day-label="28"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Review modification roadmaps tracking changes before changing active assets portfolios.</p>
+                <div id="detail-28" class="card-expanded-content"><div class="learn-content">Running a plan graphs infrastructure dependencies and previews changes safely to protect production environments from outages.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step3" data-day="29">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(29)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(29)">Day 29: Secure Cloud Remote State Management Backends</span><span class="badge badge-step3">Step 3: IaC</span></div><span class="date-label" data-day-label="29"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Prevent state file data damage using remote storage locking configurations directories.</p>
+                <div id="detail-29" class="card-expanded-content"><div class="learn-content">State maps local code settings to deployed inventory configurations. Secure locking guards records against multi-person overlaps conflict data breaks.</div></div></div>
+            </div>
+
+            <div class="day-card" data-phase="step3" data-day="30">
+                <div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(30)"></div></div>
+                <div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(30)">Day 30: Input Parameters Variables Abstract Modules</span><span class="badge badge-step3">Step 3: IaC</span></div><span class="date-label" data-day-label="30"></span></div>
+                <p style="color: var(--text-muted); font-size:0.95rem;">Remove static text parameters out into configurable abstract code inputs sheets templates.</p>
+                <div id="detail-3
