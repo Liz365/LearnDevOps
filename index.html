@@ -287,7 +287,7 @@
     <div class="container">
         <header>
             <h1>DevOps & Cloud Infrastructure Interactive Academy</h1>
-            <p class="dates-banner" id="dateBanner">Setting timeline...</p>
+            <p class="dates-banner" id="dateBanner">Initial setup running...</p>
             <p style="color: var(--text-muted)">Tap a Day Title text to open tutorials and exercises. Check boxes to save your progress.</p>
         </header>
 
@@ -319,7 +319,7 @@
             { 
                 day: 1, phase: 'step1', badge: 'Step 1: Linux', title: 'File System & Navigation Mechanics', 
                 desc: 'Master Linux directory structures and user execution pathways.', 
-                learn: 'The Linux file system is organized like an inverted tree starting at the root directory. Key paths include: <br>• /etc: Core configuration files.<br>• /var/log: Dynamic system trace logs.<br>• /home: Individual user environment scopes.<br>Understanding pathways prevents accidental directory manipulation or missing configurations root failures.',
+                learn: 'The Linux file system is organized like an inverted tree starting at the root directory (/). Key paths include: <br>• /etc: Core configuration files.<br>• /var/log: Dynamic system trace logs.<br>• /home: Individual user environment scopes.<br>Understanding pathways prevents accidental directory manipulation or missing configurations root failures.',
                 exercise: 'Create structured playground practice lanes and navigate them securely:<span class="code-block">mkdir -p ~/devops/linux_labs && cd ~/devops/linux_labs && pwd</span>' 
             },
             { 
@@ -678,6 +678,89 @@
             }
         ];
 
-        // Core Date Computation Engines
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate
+        // Custom User Start Date Calculation Engines
+        let startTimestamp = localStorage.getItem('devopsAcademy60StartTimestamp');
+        if (!startTimestamp) {
+            startTimestamp = new Date().getTime();
+            localStorage.setItem('devopsAcademy60StartTimestamp', startTimestamp);
+        }
+        
+        const startDateObj = new Date(parseInt(startTimestamp));
+        const endDateObj = new Date(startDateObj.getTime());
+        endDateObj.setDate(endDateObj.getDate() + 59);
+
+        const formatDate = (date) => {
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        };
+
+        document.getElementById('dateBanner').innerText = "Course Track Timeline: " + formatDate(startDateObj) + " to " + formatDate(endDateObj);
+
+        let completedDays = JSON.parse(localStorage.getItem('devopsAcademy60Progress')) || [];
+
+        function renderTimeline(filterPhase = 'all') {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            syllabus.forEach(item => {
+                if (filterPhase !== 'all' && item.phase !== filterPhase) return;
+
+                const cardDate = new Date(startDateObj.getTime());
+                cardDate.setDate(cardDate.getDate() + (item.day - 1));
+
+                const isCompleted = completedDays.includes(item.day);
+
+                const card = document.createElement('div');
+                card.className = "day-card " + (isCompleted ? "completed" : "");
+                card.setAttribute('data-phase', item.phase);
+                card.setAttribute('data-day', item.day);
+
+                // Assembled on a single line block array to prevent any prospective script compilation string faults
+                card.innerHTML = '<div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(' + item.day + ')"></div></div><div><div class="day-header"><div><span class="day-title" onclick="toggleCardDetail(' + item.day + ')">Day ' + item.day + ': ' + item.title + '</span><span class="badge badge-' + item.phase + '">' + item.badge + '</span></div><span class="date-label">' + formatDate(cardDate) + '</span></div><p style="color: var(--text-muted); margin-bottom: 4px; font-size:0.95rem;">' + item.desc + '</p><div id="detail-' + item.day + '" class="card-expanded-content"><div class="section-heading">📚 Deep Dive Tutorial Guide:</div><div class="learn-content">' + item.learn + '</div><div class="exercise-box"><strong>🛠️ Hands-on Engineering Lab Blueprint:</strong><br>' + item.exercise + '</div></div></div>';
+                
+                timeline.appendChild(card);
+            });
+            updateProgressBar();
+        }
+
+        function toggleCardDetail(dayNum) {
+            const detailEl = document.getElementById("detail-" + dayNum);
+            if(detailEl.style.display === 'block') {
+                detailEl.style.display = 'none';
+            } else {
+                detailEl.style.display = 'block';
+            }
+        }
+
+        function toggleDay(dayNum) {
+            const index = completedDays.indexOf(dayNum);
+            if (index > -1) {
+                completedDays.splice(index, 1);
+            } else {
+                completedDays.push(dayNum);
+            }
+            localStorage.setItem('devopsAcademy60Progress', JSON.stringify(completedDays));
+            
+            const card = document.querySelector(".day-card[data-day='" + dayNum + "']");
+            if (card) card.classList.toggle('completed');
+
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const pct = Math.round((completedDays.length / syllabus.length) * 100);
+            document.getElementById('progressBar').style.width = pct + "%";
+            document.getElementById('progressText').innerText = pct + "% (" + completedDays.length + " / 60 Complete)";
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                renderTimeline(e.target.getAttribute('data-phase'));
+            });
+        });
+
+        renderTimeline();
+    </script>
+</body>
+</html>
