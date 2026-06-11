@@ -69,7 +69,7 @@
         .badge-step6 { background: rgba(229,53,171,0.1); color: var(--accent-step6); }
         .date-label { font-size: 0.85rem; color: var(--text-muted); }
         
-        .card-expanded-content { display: none; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 12px; }
+        .card-expanded-content { display: block; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 12px; }
         .link-btn { display: inline-block; padding: 6px 12px; margin: 5px 5px 5px 0; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: 600; }
         .link-btn:hover { background: #0369a1; }
         .link-btn.video { background: #dc2626; }
@@ -97,7 +97,7 @@
                 </div>
             </div>
             
-            <p style="color: var(--text-muted); font-size: 0.85rem;">Tap a Title to expand learning tutorials, official documentation portals, and video labs.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Interact with checklists directly. Use the colored buttons to jump straight to lessons and playgrounds.</p>
         </header>
 
         <div class="progress-container">
@@ -129,7 +129,7 @@
             { d: 3, p: "step1", b: "Step 1", t: "Linux File Permissions & Processes", de: "Understand bitmasks access flags configurations and monitor CPU intensive server daemons.", doc: "https://wiki.archlinux.org/title/File_permissions_and_attributes", vid: "https://www.youtube.com/watch?v=H77_Q2fscbU", sb: "https://bellard.org/jslinux/", cmd: "chmod 755 sample.sh && ps aux --sort=-%cpu" },
             { d: 4, p: "step1", b: "Step 1", t: "Bash Scripting and Control Logic", de: "Automate server deployment workflows sequences using environment variables and loops.", doc: "https://www.gnu.org/software/bash/manual/", vid: "https://www.youtube.com/watch?v=s3F_m-62vK4", sb: "https://www.shellcheck.net/", cmd: "for i in 1 2 3; do echo 'Deploying node' \$i; done" },
             { d: 5, p: "step1", b: "Step 1", t: "Git Repository Architecture & Plumbing", de: "Track project state modifications codes logs across staging areas and commits history trees.", doc: "https://git-scm.com/doc", vid: "https://www.youtube.com/watch?v=hwP7WQkmECE", sb: "https://github.com/", cmd: "git init && git add . && git commit -m 'chore: init local tracking ledger'" },
-            { d: 6, p: "step1", b: "Step 1", t: "Git Branching Models & Conflict Merges", de: "Isolate experimental features development lanes and reconcile code overlapping modifications.", doc: "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging", vid: "https://www.youtube.com/watch?v=oPpnCh7InLY", sb: "https://learngitbranching.js.org/", cmd: "git checkout -b feature/test && git merge master" },
+            { d: 6, p: "step1", b: "Step 1", t: "Git Branching Models & Conflict Merges", de: "Isolate experimental features development streams lanes and reconcile code overlapping modifications.", doc: "https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging", vid: "https://www.youtube.com/watch?v=oPpnCh7InLY", sb: "https://learngitbranching.js.org/", cmd: "git checkout -b feature/test && git merge master" },
             { d: 7, p: "step1", b: "Step 1", t: "OSI Network Protocols & TCP/IP Routing", de: "Analyze packet communication encapsulation rules tracking Layer 3 IP routing and Layer 4 sockets.", doc: "https://www.cloudflare.com/learning/network-layer/what-is-the-osi-model/", vid: "https://www.youtube.com/watch?v=IPvYjVdBg_Y", sb: "https://www.packettracernetwork.com/", cmd: "ping -c 3 google.com && netstat -tuln" },
             { d: 8, p: "step1", b: "Step 1", t: "CIDR Clouds Networks Addresses and DNS", de: "Calculate network subnetting masks boundaries lines and analyze domain translation pipelines.", doc: "https://www.dnsmadeeasy.com/", vid: "https://www.youtube.com/watch?v=mpQZVYPuDGU", sb: "https://toolbox.googleapps.com/apps/dig/", cmd: "nslookup github.com && curl -I https://www.github.com" },
 
@@ -155,4 +155,136 @@
 
             // STEP 4
             { d: 25, p: "step4", b: "Step 4", t: "Jenkins Master Server Hosting Operations", de: "Establish continuous build delivery systems overseeing background automated job compilation pipelines.", doc: "https://www.jenkins.io/doc/", vid: "https://www.youtube.com/watch?v=FX322kVqk2A", sb: "https://www.jenkins.io/doc/book/installing/docker/", cmd: "docker run -d -p 8080:8080 --name test-jenkins jenkins/jenkins:lts" },
-            { d: 26, p: "step4", b: "Step 4", t: "Pipeline as Code Jenkinsfile Specification", de: "Model application verification steps directly inside branches code documents using custom DSL fields.", doc: "https://www.jenkins.io/doc/book/pipeline/", vid: "https://www.youtube.com/watch?v=7KcS70pKGDw", sb: "https://www
+            { d: 26, p: "step4", b: "Step 4", t: "Pipeline as Code Jenkinsfile Specification", de: "Model application verification steps directly inside branches code documents using custom DSL fields.", doc: "https://www.jenkins.io/doc/book/pipeline/", vid: "https://www.youtube.com/watch?v=7KcS70pKGDw", sb: "https://www.jenkins.io/doc/book/pipeline/jenkinsfile/", cmd: "echo -e 'pipeline {\n agent any\n stages {\n  stage(\"Lab\") { steps { echo \"CI Active\" } }\n }\n}' > Jenkinsfile" },
+            { d: 27, p: "step4", b: "Step 4", t: "Remote Repo Webhooks Automatic Triggers", de: "Wire version repository webhooks to continuous build systems to run automated validation scripts instantly.", doc: "https://docs.github.com/en/webhooks", vid: "https://www.youtube.com/watch?v=S7bCsk85nZc", sb: "https://webhook.site/", cmd: "echo 'Webhooks automate compilation triggers from git commit actions panels.'" },
+            { d: 28, p: "step4", b: "Step 4", t: "GitLab CI platforms Runners Agents setup", de: "Connect lightweight background executor runners nodes to code repositories tracking pipeline files.", doc: "https://docs.gitlab.com/runner/", vid: "https://www.youtube.com/watch?v=l5705_V_O_s", sb: "https://gitlab.com/", cmd: "echo 'Register delivery workers daemons to build codes.'" },
+            { d: 29, p: "step4", b: "Step 4", t: "Writing GitLab Pipeline Configurations blueprints", de: "Author a central tracking file named .gitlab-ci.yml combining testing phases with explicit cache metrics.", doc: "https://docs.gitlab.com/ee/ci/yaml/gitlab_ci_yaml.html", vid: "https://www.youtube.com/watch?v=Jav4X7Ww9v4", sb: "https://gitlab.com/", cmd: "echo -e 'stages:\n - build\ntest:\n script: echo \"GitLab CI active\"' > .gitlab-ci.yml" },
+            { d: 30, p: "step4", b: "Step 4", t: "Secrets Shading and Unified E2E Pipelines", de: "Inject hidden deployment access keys values via parameters variables shields safely to pass audits checks.", doc: "https://docs.gitlab.com/ee/ci/variables/", vid: "https://www.youtube.com/watch?v=YmD84InZ6sc", sb: "https://gitlab.com/", cmd: "echo 'Masked settings variables lock sensitive tokens flags away from console logs text fields.'" },
+
+            // STEP 5
+            { d: 31, p: "step5", b: "Step 5", t: "AWS VPC Cloud Networks Architecture", de: "Code virtual secure cloud subnets allocations route tables maps configurations models and gateways lines.", doc: "https://docs.aws.amazon.com/vpc/", vid: "https://www.youtube.com/watch?v=jeDQLZ_8TQA", sb: "https://aws.amazon.com/free/", cmd: "echo 'VPC blueprints partition infrastructure layers, keeping databases separate from public gateways portals.'" },
+            { d: 32, p: "step5", b: "Step 5", t: "AWS EC2 Compute server Instance Firewalls", de: "Launch on-demand virtual cloud computing server nodes and attach narrow network access filters rules.", doc: "https://docs.aws.amazon.com/ec2/", vid: "https://www.youtube.com/watch?v=3hZ86b-HwI8", sb: "https://aws.amazon.com/free/", cmd: "echo 'Security Groups serve as virtual instance firewalls restricting incoming communication streams to SSH entries.'" },
+            { d: 33, p: "step5", b: "Step 5", t: "AWS IAM Security lowest Privilege Policies", de: "Govern account administrative permissions profiles tightly using strict policy scripts files limiting resource APIs access.", doc: "https://docs.aws.amazon.com/iam/", vid: "https://www.youtube.com/watch?v=4yWpGZ_U3X0", sb: "https://aws.amazon.com/free/", cmd: "echo 'IAM roles assign restricted privileges to cloud components without exposing root credential fields keys.'" },
+            { d: 34, p: "step5", b: "Step 5", t: "Azure resource Packaging VNets & RBAC Access", de: "Study resource group organization boundaries inside the Microsoft cloud platform and apply role access matrices models.", doc: "https://learn.microsoft.com/en-us/azure/role-based-access-control/overview", vid: "https://www.youtube.com/watch?v=Je9wZshY3rM", sb: "https://azure.microsoft.com/free/", cmd: "echo 'Azure virtual machine compute node templates deploy into private software networks zones.'" },
+            { d: 35, p: "step5", b: "Step 5", t: "GCP Global Networks VPC & Compute Engine Pools", de: "Explore high performance global networking backbone design options unique to the Google cloud infrastructure system fields landscape.", doc: "https://cloud.google.com/vpc/docs/overview", vid: "https://cloud.google.com/docs", sb: "https://cloud.google.com/free", cmd: "echo 'Initialize google cloud servers instances pools managing workflows parameters inside regional subnets maps.'" },
+            { d: 36, p: "step5", b: "Step 5", t: "Managed Cloud Kubernetes Service Deployments", de: "Initialize high-availability orchestrator container clusters platforms (EKS, AKS, GKE) automatically through cloud providers APIs.", doc: "https://aws.amazon.com/eks/", vid: "https://www.youtube.com/watch?v=p7Z6p7Z6bS4", sb: "https://aws.amazon.com/free/", cmd: "echo 'Cloud managed container engines automate control plane maintenance tasks and deliver scalable configurations nodes pools.'" },
+
+            // STEP 6
+            { d: 37, p: "step6", b: "Step 6", t: "Prometheus Telemetry Scrapers Calibration", de: "Study numeric performance metrics data collection parameters and adjust scraping targets poll intervals.", doc: "https://prometheus.io/docs/introduction/overview/", vid: "https://www.youtube.com/watch?v=h4Sl2169MvM", sb: "https://prometheus.io/docs/introduction/first_steps/", cmd: "echo 'Telemetry monitors fetch hardware utilization numbers reports periodically from active server endpoints.'" },
+            { d: 38, p: "step6", b: "Step 6", t: "Grafana Visualization Dashboards Insights", de: "Transform messy raw performance numbers data grids into clean interactive visual systems health dashboards.", doc: "https://grafana.com/docs/", vid: "https://www.youtube.com/watch?v=N0wfev76HRE", sb: "https://play.grafana.org/", cmd: "echo 'Visualization dashboards graph live resource usage anomalies to help engineering teams locate infrastructure faults.'" },
+            { d: 39, p: "step6", b: "Step 6", t: "Elasticsearch Index Distributed Document Database", de: "Deploy high-efficiency textual document storage document repositories optimized to search millions of application logs traces.", doc: "https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html", vid: "https://www.youtube.com/watch?v=gS_n_17PEnI", sb: "https://www.elastic.co/ko/training/free", cmd: "echo 'Search index databases process text logs outputs fields to capture error message patterns across system clusters.'" },
+            { d: 40, p: "step6", b: "Step 6", t: "Logstash Filters & Kibana Control Command", de: "Parse raw text histories into JSON metrics blocks, unifying telemetry and logging layers together into a central observability panel.", doc: "https://www.elastic.co/guide/en/kibana/current/index.html", vid: "https://www.youtube.com/watch?v=xDn0IuX69vU", sb: "https://demo.elastic.co/", cmd: "echo 'Observability pipelines parse and chart app traces anomalies across your footprint, completing your roadmap triumphantly!'" }
+        ];
+
+        // Custom User Start Date Locking Mechanics
+        let startTimestamp = localStorage.getItem('devopsAcademyStartTimestamp40_final');
+        if (!startTimestamp) {
+            startTimestamp = new Date().getTime();
+            localStorage.setItem('devopsAcademyStartTimestamp40_final', startTimestamp);
+        }
+        
+        const startDateObj = new Date(parseInt(startTimestamp));
+        const endDateObj = new Date(startDateObj.getTime());
+        endDateObj.setDate(endDateObj.getDate() + 39); // 40 days total
+
+        const formatDate = (date) => {
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        };
+
+        document.getElementById('dateBanner').innerText = "Personalized Academy Timeline: " + formatDate(startDateObj) + " to " + formatDate(endDateObj);
+
+        // State Manager Progress Assets Tracking Ledger Profiles
+        let completedDays = JSON.parse(localStorage.getItem('devopsAcademyCompletedProgressList40_final')) || [];
+
+        // Pre-Restore historical checked styles configurations on boot
+        completedDays.forEach(dayNum => {
+            const card = document.querySelector(".day-card[data-day='" + dayNum + "']");
+            if(card) card.classList.add('completed');
+        });
+
+        function renderTimeline(filterPhase = 'all') {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            syllabus.forEach(item => {
+                if (filterPhase !== 'all' && item.p !== filterPhase) return;
+
+                const cardDate = new Date(startDateObj.getTime());
+                cardDate.setDate(cardDate.getDate() + (item.d - 1));
+
+                const isCompleted = completedDays.includes(item.d);
+
+                const card = document.createElement('div');
+                card.className = "day-card " + (isCompleted ? "completed" : "");
+                card.setAttribute('data-phase', item.p);
+                card.setAttribute('data-day', item.d);
+
+                card.innerHTML = '<div class="checkbox-container"><div class="checkbox-custom" onclick="toggleDay(' + item.d + ')"></div></div>' +
+                    '<div>' +
+                    '<div class="day-header">' +
+                    '<div><span class="day-title" onclick="toggleCardDetail(' + item.d + ')">Day ' + item.d + ': ' + item.t + '</span>' +
+                    '<span class="badge badge-' + item.p + '">' + item.b + '</span></div>' +
+                    '<span class="date-label">' + formatDate(cardDate) + '</span>' +
+                    '</div>' +
+                    '<p style="color: var(--text-muted); margin-bottom: 4px; font-size:0.95rem;">' + item.de + '</p>' +
+                    '<div id="detail-' + item.d + '" class="card-expanded-content">' +
+                    '<div class="section-heading">📚 Educational Portals & Documentation Links:</div>' +
+                    '<a href="' + item.doc + '" target="_blank" class="link-btn">Official Docs Portal</a>' +
+                    '<a href="' + item.vid + '" target="_blank" class="link-btn video">Free Video Course Lab</a>' +
+                    '<a href="' + item.sb + '" target="_blank" class="link-btn sandbox">Interactive Practice Sandbox</a>' +
+                    '<div style="margin-top:10px;" class="section-heading">🛠️ Foundation CLI Terminal Command Lab:</div>' +
+                    '<span class="code-block">' + item.cmd + '</span>' +
+                    '</div>' +
+                    '</div>';
+                
+                timeline.appendChild(card);
+            });
+            updateProgressBar();
+        }
+
+        function toggleCardDetail(dayNum) {
+            const detailEl = document.getElementById("detail-" + dayNum);
+            if(detailEl.style.display === 'none') {
+                detailEl.style.display = 'block';
+            } else {
+                detailEl.style.display = 'none';
+            }
+        }
+
+        function toggleDay(dayNum) {
+            const index = completedDays.indexOf(dayNum);
+            if (index > -1) {
+                completedDays.splice(index, 1);
+            } else {
+                completedDays.push(dayNum);
+            }
+            localStorage.setItem('devopsAcademyCompletedProgressList40_final', JSON.stringify(completedDays));
+            
+            const card = document.querySelector(".day-card[data-day='" + dayNum + "']");
+            if (card) card.classList.toggle('completed');
+
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const totalCards = 40; 
+            const pct = Math.round((completedDays.length / totalCards) * 100);
+            document.getElementById('progressBar').style.width = pct + "%";
+            document.getElementById('progressText').innerText = pct + "% (" + completedDays.length + " / " + totalCards + " Mastered)";
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const phaseFilter = e.target.getAttribute('data-phase');
+                renderTimeline(phaseFilter);
+            });
+        });
+
+        // Trigger dynamic bootstrap layout render loop on first load initialization
+        renderTimeline('all');
+    </script>
+</body>
+</html>
