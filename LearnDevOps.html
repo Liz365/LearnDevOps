@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>60-Day DevOps Academy & Tracker</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-step1: #38bdf8;
+            --accent-step2: #326ce5;
+            --accent-step3: #844fba;
+            --accent-step4: #fc6d26;
+            --accent-step5: #ff9900;
+            --accent-step6: #e535ab;
+            --accent-final: #10b981;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--accent-step1), var(--accent-step3), var(--accent-step5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dates-banner {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-bar-bg {
+            background: var(--border-color);
+            height: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(to right, var(--accent-step1), var(--accent-final));
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease-out;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            padding: 10px 18px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .tab.active[data-phase="all"] { border-color: var(--text-main); color: var(--text-main); }
+        .tab.active[data-phase="step1"] { background: var(--accent-step1); color: #000; border-color: var(--accent-step1); }
+        .tab.active[data-phase="step2"] { background: var(--accent-step2); color: #fff; border-color: var(--accent-step2); }
+        .tab.active[data-phase="step3"] { background: var(--accent-step3); color: #fff; border-color: var(--accent-step3); }
+        .tab.active[data-phase="step4"] { background: var(--accent-step4); color: #fff; border-color: var(--accent-step4); }
+        .tab.active[data-phase="step5"] { background: var(--accent-step5); color: #000; border-color: var(--accent-step5); }
+        .tab.active[data-phase="step6"] { background: var(--accent-step6); color: #fff; border-color: var(--accent-step6); }
+
+        .day-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 18px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+            transition: all 0.2s ease;
+        }
+
+        .day-card.completed {
+            border-left: 6px solid var(--accent-final) !important;
+        }
+
+        .day-card[data-phase="step1"] { border-left: 6px solid var(--accent-step1); }
+        .day-card[data-phase="step2"] { border-left: 6px solid var(--accent-step2); }
+        .day-card[data-phase="step3"] { border-left: 6px solid var(--accent-step3); }
+        .day-card[data-phase="step4"] { border-left: 6px solid var(--accent-step4); }
+        .day-card[data-phase="step5"] { border-left: 6px solid var(--accent-step5); }
+        .day-card[data-phase="step6"] { border-left: 6px solid var(--accent-step6); }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            margin-top: 4px;
+        }
+
+        .checkbox-custom {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .day-card.completed .checkbox-custom {
+            background: var(--accent-final);
+            border-color: var(--accent-final);
+        }
+
+        .checkbox-custom::after {
+            content: "✓";
+            color: #000;
+            font-weight: bold;
+            display: none;
+            font-size: 1.1rem;
+        }
+
+        .day-card.completed .checkbox-custom::after {
+            display: block;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .day-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .day-title:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-left: 6px;
+            white-space: nowrap;
+        }
+
+        .badge-step1 { background: rgba(56, 189, 248, 0.15); color: var(--accent-step1); }
+        .badge-step2 { background: rgba(50, 108, 229, 0.15); color: var(--accent-step2); }
+        .badge-step3 { background: rgba(132, 79, 186, 0.15); color: var(--accent-step3); }
+        .badge-step4 { background: rgba(252, 109, 38, 0.15); color: var(--accent-step4); }
+        .badge-step5 { background: rgba(255, 153, 0, 0.15); color: var(--accent-step5); }
+        .badge-step6 { background: rgba(229, 53, 171, 0.15); color: var(--accent-step6); }
+
+        .date-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .section-heading {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-top: 14px;
+            margin-bottom: 6px;
+        }
+
+        .learn-content {
+            background: #111827;
+            border: 1px solid #374151;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .exercise-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px dashed var(--accent-final);
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
+
+        .exercise-box strong {
+            color: var(--accent-final);
+        }
+
+        .code-block {
+            background: #000;
+            color: #50fa7b;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin: 8px 0;
+            overflow-x: auto;
+            display: block;
+            border: 1px solid #1e293b;
+        }
+        
+        .inline-code {
+            background: #000;
+            color: #ff79c6;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>DevOps & Cloud Infrastructure Interactive Academy</h1>
+            <p class="dates-banner" id="dateBanner">Setting timeline...</p>
+            <p style="color: var(--text-muted)">Click checkboxes to track completion. Read embedded material to master core engineering tools.</p>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-stats">
+                <span style="font-weight: bold; font-size: 1.1rem;">Roadmap Completion Progress</span>
+                <span id="progressText" style="font-weight: bold; color: var(--accent-final)">0% (0/60 Complete)</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-phase="all">All Modules</div>
+            <div class="tab" data-phase="step1">Step 1: Basics</div>
+            <div class="tab" data-phase="step2">Step 2: Containers</div>
+            <div class="tab" data-phase="step3">Step 3: IaC</div>
+            <div class="tab" data-phase="step4">Step 4: CI/CD</div>
+            <div class="tab" data-phase="step5">Step 5: Cloud</div>
+            <div class="tab" data-phase="step6">Step 6: Monitor</div>
+        </div>
+
+        <div id="timeline"></div>
+    </div>
+
+    <script>
+        const syllabus = [
+            // STEP 1
+            { 
+                day: 1, phase: 'step1', badge: 'Step 1: Linux', title: 'File System & Navigation Mechanics', 
+                desc: 'Master Linux directory structures and user execution pathways.', 
+                learn: 'The Linux file system is organized like an inverted tree starting at the root directory (<span class="inline-code">/</span>). Key paths include: <br>• <span class="inline-code">/etc</span>: Core configuration files.<br>• <span class="inline-code">/var/log</span>: Dynamic system trace logs.<br>• <span class="inline-code">/home</span>: Individual user environment scopes.<br>Understanding pathways prevents accidental directory manipulation or missing configurations root failures.',
+                exercise: 'Create structured playground practice lanes and navigate them securely:<span class="code-block">mkdir -p ~/devops/linux_labs && cd ~/devops/linux_labs && pwd</span>' 
+            },
+            { 
+                day: 2, phase: 'step1', badge: 'Step 1: Linux', title: 'Text Manipulation & Processing Streams', 
+                desc: 'Study data stream piping, matching regular expressions, and parsing configurations outputs.', 
+                learn: 'Linux systems treat everything as a stream of text data. Pipes (<span class="inline-code">|</span>) allow you to route the output of one utility to the input of another. Essential parsing commands include:<br>• <span class="inline-code">grep</span>: Filters text matching patterns.<br>• <span class="inline-code">awk</span>: Powerful column-based data extraction filter.<br>• <span class="inline-code">sed</span>: Stream editor used to replace text inside configuration templates on the fly.',
+                exercise: 'Extract and count specific HTTP 500 server errors from a mock system log file string:<span class="code-block">echo -e "200 OK\\n500 Internal Error\\n404 Not Found\\n500 Gateway Timeout" > access.log\ncat access.log | grep "500" | wc -l</span>' 
+            },
+            { 
+                day: 3, phase: 'step1', badge: 'Step 1: Linux', title: 'User Permissions & Process Execution', 
+                desc: 'Explore user access limits and tracking active system resource metrics.', 
+                learn: 'Linux enforces safety by dividing file controls into three categories: Read (<span class="inline-code">r=4</span>), Write (<span class="inline-code">w=2</span>), and Execute (<span class="inline-code">x=1</span>) mapped across Owner, Group, and Public scopes. Use <span class="inline-code">chmod</span> to change permissions and <span class="inline-code">ps aux</span> or <span class="inline-code">top</span> to monitor live CPU-consuming application daemons.',
+                exercise: 'Create a simple text shell script file, elevate its system run privileges, and track its active process tree profile:<span class="code-block">echo -e "#!/bin/bash\\necho \'Running Securely\'" > run_lab.sh\nchmod 755 run_lab.sh\n./run_lab.sh</span>' 
+            },
+            { 
+                day: 4, phase: 'step1', badge: 'Step 1: Linux', title: 'Shell Scripting Variable Operations', 
+                desc: 'Learn to automate administrative tasks using local terminal environment variables structures.', 
+                learn: 'Shell scripts automate standard CLI commands. Variables store temporary states and paths dynamically without hardcoding system configurations. Always declare the interpreter type using a shebang line (<span class="inline-code">#!/bin/bash</span>) at the very top of your scripting documents to guarantee consistency.',
+                exercise: 'Write a basic variables layout wrapper logging deployment locations dynamically:<span class="code-block">echo -e "#!/bin/bash\\nTARGET=\'production_node\'\\necho \'Deploying code components to \$TARGET\'" > environment.sh\\nbash environment.sh</span>' 
+            },
+            { 
+                day: 5, phase: 'step1', badge: 'Step 1: Linux', title: 'Shell Script Loops & Control Statements', 
+                desc: 'Implement conditional paths logic and loop scripts structures to handle repetitive tasks.', 
+                learn: 'Control blocks allow your automation scripts to react dynamically to changes. Use <span class="inline-code">if [ condition ]</span> blocks to verify if configuration profiles or backup files exist, and wrap repetitive execution jobs inside clean <span class="inline-code">for</span> or <span class="inline-code">while</span> loop parameters.',
+                exercise: 'Create an automated loop testing host connections parameters or building incremental backup directories:<span class="code-block">for i in {1..3}; do mkdir -p "backup_v\$i"; done\nls -l</span>' 
+            },
+            { 
+                day: 6, phase: 'step1', badge: 'Step 1: Git', title: 'Git Core Plumbing & Working Tree States', 
+                desc: 'Deconstruct internal tracking layers from local working fields into commits history trees.', 
+                learn: 'Git tracks modifications across three main architectural states:<br>1. **Working Directory**: Modifying untracked source assets files.<br>2. **Staging Area (Index)**: Bundling snapshots of files ready to commit.<br>3. **Git Directory (Repository)**: Permanently storing records inside the local ledger.',
+                exercise: 'Initialize an empty local project workspace and commit a file to freeze its historical state metadata:<span class="code-block">git init\necho "v1.0" > app.conf\ngit add app.conf\ngit commit -m "chore: save configuration profile"</span>' 
+            },
+            { 
+                day: 7, phase: 'step1', badge: 'Step 1: Git', title: 'Branching Management & Collaborative Integration', 
+                desc: 'Isolate experimental features lanes and resolve configuration merge conflicts.', 
+                learn: 'Branches are lightweight, movable pointers to distinct development streams. Isolating changes inside a <span class="inline-code">feature/</span> branch protects production environments. Merging combines distinct code timelines into a single target tracking path.',
+                exercise: 'Branch out, run separate line adjustments, and execute a code integration update sequence safely:<span class="code-block">git checkout -b feature/configs\necho "debug=true" >> app.conf\ngit add app.conf && git commit -m "feat: turn on diagnostics"\ngit checkout -; git merge feature/configs</span>' 
+            },
+            { 
+                day: 8, phase: 'step1', badge: 'Step 1: Networking', title: 'OSI Model Protocols & Dynamic TCP/IP Routing', 
+                desc: 'Study data packet encapsulation steps and connection verification networks pathways.', 
+                learn: 'The Open Systems Interconnection (OSI) framework partitions global network data transportation into 7 logical boundaries. Cloud Infrastructure engineers focus heavily on:<br>• **Layer 3 (Network)**: Routing data packets via IP addresses.<br>• **Layer 4 (Transport)**: Managing handshakes and connection streams using TCP or UDP protocols.',
+                exercise: 'Inspect your active system default network gateways parameters and trace remote routing lookup paths mapping to domains: <span class="code-block">ping -c 3 github.com</span>' 
+            },
+            { 
+                day: 9, phase: 'step1', badge: 'Step 1: Networking', title: 'Subnet Addressing Systems & CIDR Blocks', desc: 'Deconstruct cloud private network isolation walls using Classless Inter-Domain Routing boundaries allocations.', learn: 'CIDR blocks define network boundaries. An IP configuration string like <span class="inline-code">10.0.0.0/16</span> provides a large global sandbox of addresses, while tighter masks like <span class="inline-code">/24</span> partition that pool into localized network tiers (like front web entry gates vs isolated back database subnets).', exercise: 'Calculate IP allocations capacity boundaries: A standard <span class="inline-code">/24</span> allocation block contains $2^{32-24} = 256$ total addresses ($251$ usable inside cloud spaces after accounting for systemic routing reserves).' },
+            { day: 10, phase: 'step1', badge: 'Step 1: Networking', title: 'DNS Resolution Pipelines & Port Rules', desc: 'Study domain mapping translation pipelines and system network port accessibility rules.', learn: 'Domain Name System (DNS) maps human-readable URLs to matching physical server IP addresses. Network applications bind to explicit numerical ports to listen for connection requests (e.g., HTTP sits on Port 80, HTTPS on Port 443, and SSH administration sits on Port 22).', exercise: 'Check live web application header values and look up remote server destination resolution profiles using network commands:<span class="code-block">curl -I https://www.cloudflare.com</span>' },
+
+            // STEP 2
+            { 
+                day: 11, phase: 'step2', badge: 'Step 2: Containers', title: 'Container Runtimes vs Virtual Hardwares', 
+                desc: 'Understand kernel shared virtualization systems making containers lightweight.', 
+                learn: 'Virtual Machines pack a full, heavy guest Operating System complete with virtual hardware emulators. Containers run as isolated processes directly on the host machine\'s kernel using Linux **namespaces** (for isolation) and **cgroups** (for resource limits). This makes them incredibly fast, efficient, and lightweight.',
+                exercise: 'Verify your engine version and pull down an ultralight, isolated Alpine base image to your local registry runtime cache:<span class="code-block">docker --version\ndocker pull alpine:latest\ndocker images</span>' 
+            },
+            { 
+                day: 12, phase: 'step2', badge: 'Step 2: Containers', title: 'Docker CLI Execution Lifecycle Matrix', 
+                desc: 'Master managing container operational run states and tracking telemetry streams fields.', 
+                learn: 'A container passes through clear lifecycle points: Created, Running, Stopped, and Destroyed. Use <span class="inline-code">docker run -d</span> to launch containers safely in the background, <span class="inline-code">docker ps</span> to monitor active runs, and <span class="inline-code">docker logs</span> to read the application stdout streams.',
+                exercise: 'Launch an isolated background web server instance, evaluate its operational metrics, and safely shut it down:<span class="code-block">docker run -d -p 8080:80 --name test-host nginx:alpine\ndocker ps\ndocker logs test-host\ndocker stop test-host && docker rm test-host</span>' 
+            },
+            { 
+                day: 13, phase: 'step2', badge: 'Step 2: Containers', title: 'Dockerfile Assembly Architecture Blueprints', 
+                desc: 'Construct secure immutable application base layers configurations blocks.', 
+                learn: 'A Dockerfile is an automated recipe step sheet. Every command statement (like <span class="inline-code">RUN</span> or <span class="inline-code">COPY</span>) generates a permanent read-only layer on the filesystem. Ordering instructions from least-frequently-changed to most-frequently-changed maximizes build cache efficiency.',
+                exercise: 'Write a basic custom app container specification and build it into an executable system artifact:<span class="code-block">echo -e "FROM alpine\\nRUN apk add --no-cache curl\\nCMD [\'curl\', \'-I\', \'https://github.com\']" > Dockerfile\ndocker build -t web-checker:v1 .\ndocker run --rm web-checker:v1</span>' 
+            },
+            { 
+                day: 14, phase: 'step2', badge: 'Step 2: Containers', title: 'Volume Storage Persistence & Shared Networks', 
+                desc: 'Isolate container networking planes and persist critical state database data.', 
+                learn: 'Containers are ephemeral—any data written inside them disappears forever when the container is deleted. To protect your data, map permanent storage directories to the host using **Volumes**. To allow containers to talk to each other safely, group them together on isolated internal **Bridge Networks**.',
+                exercise: 'Establish an independent virtual bridge network workspace lane and verify container visibility parameters:<span class="code-block">docker network create isolated-tier\ndocker run -d --name cache-node --network isolated-tier redis:alpine\ndocker run --rm --network isolated-tier alpine ping -c 2 cache-node</span>' 
+            },
+            { 
+                day: 15, phase: 'step2', badge: 'Step 2: Containers', title: 'Multi-Service Orchestration with Compose', 
+                desc: 'Manage multi-tier infrastructure environments configurations from a single file.', 
+                learn: 'Docker Compose eliminates the need to run long, complicated single-line CLI commands. It uses a single structured YAML file to spin up multiple interconnected services, handle environment variables, and manage ports simultaneously.',
+                exercise: 'Write a composition template file to launch a multi-service stack with a single command:<span class="code-block">echo -e "version: \'3\'\\nservices:\\n  web:\\n    image: nginx:alpine\\n    ports:\\n      - \'8888:80\'" > docker-compose.yml\ndocker compose up -d\ndocker compose ps\ndocker compose down</span>' 
+            },
+            { day: 16, phase: 'step2', badge: 'Step 2: K8s', title: 'Kubernetes Cluster Anatomy & Control Topology', desc: 'Deconstruct cluster control plane orchestration nodes and distributed worker system elements.', learn: 'Kubernetes groups physical or virtual machines into a single high-availability cluster. The Control Plane runs the master management engines (API Server, etcd state database, and schedulers), while Worker Nodes host the actual application containers.', exercise: 'Start your local Kubernetes playground cluster and evaluate node readiness states using standard commands:<span class="code-block">kubectl cluster-info\nkubectl get nodes</span>' },
+            { day: 17, phase: 'step2', badge: 'Step 2: K8s', title: 'Declarative Pod Configuration Architecture', desc: 'Study atomic scheduler deployment units configurations schemas inside cluster namespaces.', learn: 'A Pod is the smallest deployable computing unit in Kubernetes. It wraps one or more closely coupled containers that share the exact same network space, storage assets, and runtime configurations constraints.', exercise: 'Write a basic, valid pod manifest block and apply it into your cluster sandbox network:<span class="code-block">echo -e "apiVersion: v1\\nkind: Pod\\nmetadata:\\n  name: alpha-pod\\nspec:\\n  containers:\\n  - name: web\\n    image: nginx:alpine" > pod.yaml\nkubectl apply -f pod.yaml\nkubectl get pods</span>' },
+            { day: 18, phase: 'step2', badge: 'Step 2: K8s', title: 'Replication Control & Scaled Deployments', desc: 'Implement self-healing application instances models across cluster topologies paths.', learn: 'Deployments provide declarative updates for Pods and ReplicaSets. If a host node fails, the deployment controller automatically reschedules missing pods onto a healthy machine, keeping your application online and self-healing.', exercise: 'Deploy an app layout and target dynamic scale adjustments instantly on the fly:<span class="code-block">kubectl create deployment scalable-app --image=nginx:alpine\nkubectl scale deployment scalable-app --replicas=3\nkubectl get deployments</span>' },
+            { day: 19, phase: 'step2', badge: 'Step 2: K8s', title: 'Cluster Routing Services Abstractions', desc: 'Expose moving container target arrays to external user networks safely using cluster proxies.', learn: 'Pods are frequently created and destroyed, and their IP addresses change constantly. A **Service** provides a stable, permanent IP address and DNS name to reliably load-balance traffic across your moving pod instances.', exercise: 'Expose your application deployment behind a stable internal routing proxy boundary gate interface:<span class="code-block">kubectl expose deployment scalable-app --type=ClusterIP --port=80\nkubectl get services</span>' },
+            { day: 20, phase: 'step2', badge: 'Step 2: K8s', title: 'Volume Claims & Persistent Pod Storage', desc: 'Provide persistent cloud network disk resources bindings to cluster pods units.', learn: 'To keep database data safe inside transient cluster nodes, Kubernetes separates storage management from app config. Pods request disk space using a **PersistentVolumeClaim (PVC)**, which automatically binds to an available storage volume.', exercise: 'Inspect cluster configuration storage allocations capacity options on your local playground console environment:<span class="code-block">kubectl get storageclass</span>' },
+            { day: 21, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Cluster Core Component Maintenance', desc: 'Learn cluster state data preservation patterns and component upgrades safety checkpoints.', learn: 'The Certified Kubernetes Administrator (CKA) exam tests your core cluster administration skills. A critical requirement is managing etcd—the distributed key-value store that holds the complete ground-truth configuration data of your cluster.', exercise: 'Verify system control plane core component statuses across master node directories layout blocks:<span class="code-block">kubectl get componentstatuses</span>' },
+            { day: 22, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Advanced Scheduling & Node Controls', desc: 'Control cluster pod placement behaviors using Taints, Tolerations, and Affinities rules.', learn: 'By default, the Kubernetes scheduler spreads workloads evenly across all available nodes. Use **Taints** and **Tolerations** to repel pods from specific nodes, or use **Node Affinity** to ensure specific pods only deploy onto machines with matching hardware characteristics (like SSD storage or GPU acceleration).', exercise: 'Apply an explicit identifying tag attribute marker to an active target worker node instance node partition:<span class="code-block">kubectl label nodes --all hardware=highperf</span>' },
+            { day: 23, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Secure Network Policies Configurations', desc: 'Control multi-namespace pod traffic pathways streams using explicit packet firewall filters.', learn: 'By default, all pods in a Kubernetes cluster can talk to each other without restriction. **NetworkPolicies** act as cluster-wide firewalls, allowing you to secure your infrastructure by restricting traffic to explicit pod labels or namespaces.', exercise: 'Review cluster active network filtering restrictions frameworks on current workspace parameters console:<span class="code-block">kubectl get netpol -A</span>' },
+            { day: 24, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Diagnostic Troubleshooting Workflows', desc: 'Trace cluster component failures, inspect faulty runtimes states, and check tracking events log maps.', learn: 'When deployments fail, use standard diagnostic commands to investigate the issue: <span class="inline-code">kubectl logs</span> reads application output errors, <span class="inline-code">kubectl describe</span> shows cluster scheduling states, and <span class="inline-code">kubectl get events</span> highlights cluster runtime errors.', exercise: 'Diagnose a target cluster workload failure state and parse output logs streams using tracking commands:<span class="code-block">kubectl get events --sort-by=\'.metadata.creationTimestamp\'</span>' },
+            { day: 25, phase: 'step2', badge: 'Step 2: CKA', title: 'CKA: Practical Simulation Dry-Run Mock', desc: 'Validate complete administrative readiness capabilities within timed complex simulation parameters.', learn: 'The real-world practice of a CKA infrastructure administrator means interacting directly with multiple contexts. Learn to change system context layers cleanly using config flags targets paths.', exercise: 'Validate master configurations contexts changes operations running standard environment indicators parameters:<span class="code-block">kubectl config get-contexts</span>' },
+
+            // STEP 3
+            { 
+                day: 26, phase: 'step3', badge: 'Step 3: IaC', title: 'Declarative Cloud Blueprint Architecture', 
+                desc: 'Understand how writing infrastructure as code prevents environmental drift.', 
+                learn: 'Infrastructure as Code (IaC) allows you to define cloud resources in plain text configuration files. This makes your infrastructure version-controlled, easily repeatable, and completely immune to the configuration drift caused by manual UI click changes.',
+                exercise: 'Establish a clean project blueprint sandbox directory and initialize the provider core system engine modules:<span class="code-block">mkdir -p ~/tf_academy && cd ~/tf_academy\necho \'terraform { required_version = ">= 1.0" }\' > main.tf\nterraform init</span>' 
+            },
+            { 
+                day: 27, phase: 'step3', badge: 'Step 3: IaC', title: 'HCL Structural Blocks & Core Resources', 
+                desc: 'Deconstruct HashiCorp Configuration Language parameters rules and structural components declarations.', 
+                learn: 'HCL uses simple declarative resource blocks to manage infrastructure. A resource block takes a type and a name argument: <span class="inline-code">resource "provider_type" "local_name"</span>. This tells Terraform exactly what object to build and how to reference it elsewhere in your code.',
+                exercise: 'Add a local text file creator resource definition block into your configuration layout and execute verification runs:<span class="code-block">echo -e "resource \\"local_file\\" \\"demo\\" {\\n  content  = \\"DevOps Blueprint Infrastructure\\"\\n  filename = \\"\${path.module}/lab.txt\\"\\n}" >> main.tf\nterraform init</span>' 
+            },
+            { 
+                day: 28, phase: 'step3', badge: 'Step 3: IaC', title: 'Predictive Executions & Live Modification Plans', 
+                desc: 'Generate execution preview blueprints before altering active cloud configurations.', 
+                learn: 'Terraform calculates an explicit dependency graph of your infrastructure. Running a plan compares your local code against the active cloud state, generating a safe preview list of exactly what will be added, changed, or destroyed before any modifications are applied.',
+                exercise: 'Run prediction plans and apply them to watch Terraform generate your infrastructure objects dynamically:<span class="code-block">terraform plan\nterraform apply -auto-approve\ncat lab.txt</span>' 
+            },
+            { 
+                day: 29, phase: 'step3', badge: 'Step 3: IaC', title: 'State Engine Lifecycle Files Locking', 
+                desc: 'Secure your critical state mapping logs database using remote backend locking setups.', 
+                learn: 'The state file tracks the relationship between your configuration code and real-world deployed cloud assets. In team environments, store this file in a remote repository (like AWS S3 or Azure Blob) with locking enabled (via DynamoDB) to prevent concurrent updates from breaking your infrastructure.',
+                exercise: 'Inspect your active system tracking records dictionary details generated inside your local working directories:<span class="code-block">terraform show</span>' 
+            },
+            { 
+                day: 30, phase: 'step3', badge: 'Step 3: IaC', title: 'Parametric Input Variables & Module Reusability', 
+                desc: 'Extract hardcoded configurations text strings out into portables reusable modules formats.', 
+                learn: 'Variables make your infrastructure code dynamic and customizable. Instead of hardcoding values directly into your logic blocks, define abstract input parameters so the exact same codebase can safely deploy identical, isolated development, staging, and production environments.',
+                exercise: 'Refactor your main configuration script block using parameter definitions tags arrays variables models:<span class="code-block">echo -e "variable \\"file_text\\" {\\n  type = string\\n  default = \\"Parametric content\\"\\n}" > variables.tf</span>' 
+            },
+            { day: 31, phase: 'step3', badge: 'Step 3: IaC', title: 'Advanced Interations Loops & Conditionals', desc: 'Leverage conditional flags logic blocks and resource array loops inside infrastructure design systems.', learn: 'To scale identical infrastructure resources cleanly without copying and pasting code, master HCL loops like <span class="inline-code">count</span> and <span class="inline-code">for_each</span>. These loops read map values to provision multi-instance cloud infrastructures automatically.', exercise: 'Tear down your temporary local practice infrastructure resources to keep your workspace clean using cleanup command lines:<span class="code-block">terraform destroy -auto-approve</span>' },
+            { day: 32, phase: 'step3', badge: 'Step 3: IaC', title: 'Ansible Node Agentless Architecture', desc:
